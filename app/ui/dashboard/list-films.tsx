@@ -3,11 +3,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { Film } from '@/app/lib/definitions';
-export default function ListFilms({
-  listFilms,
-}: {
-  listFilms: Film[];
-}) {
+export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -38,7 +34,7 @@ export default function ListFilms({
                   />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      {film.name}
+                      {film.film_name}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
                       ({film.film_year_released})
