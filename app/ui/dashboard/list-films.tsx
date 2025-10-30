@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { Film } from '@/app/lib/definitions';
-export default async function ListFilms({
+export default function ListFilms({
   listFilms,
 }: {
   listFilms: Film[];

@@ -1,4 +1,4 @@
-import { Card } from '@/app/ui/dashboard/cards';
+import { FilmCard } from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import listFilms from '@/app/ui/dashboard/list-films';
 import { lusitana } from '@/app/ui/fonts';
@@ -10,7 +10,7 @@ export default async function Page() {
         Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Card title="Films" value={listFilms}/>
+        <FilmCard title="Films" value={listFilms}/>
         {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
         {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
         {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
