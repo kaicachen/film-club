@@ -6,10 +6,32 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  Film,
+  Member
 } from './definitions';
 import { formatCurrency } from './utils';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+export async function fetchFilms() {
+  try {
+  const data = await sql<Film[]>`SELECT * FROM films`;
+  return data
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch films data.');
+  }
+}
+
+export async function fetchMembers() {
+  try {
+  const data = await sql<Member[]>`SELECT * FROM members`;
+  return data
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch members data.');
+  }
+}
 
 export async function fetchRevenue() {
   try {

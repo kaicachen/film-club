@@ -6,6 +6,7 @@
 // ========== USED TYPES ==========
 export type User = {
   id: string;
+  member_id: number;
   name: string;
   email: string;
   password: string;
@@ -18,6 +19,7 @@ export type Film = {
   film_year_released: number;
   film_director: string;
   film_host: number;
+  film_poster_url: string;
 };
 
 export type Member = {
