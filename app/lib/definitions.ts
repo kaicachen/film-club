@@ -2,12 +2,38 @@
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
+
+// ========== USED TYPES ==========
 export type User = {
   id: string;
   name: string;
   email: string;
   password: string;
 };
+
+export type Film = {
+  id: number;
+  film_name: string;
+  film_date_discussed: Date;
+  film_year_released: number;
+  film_director: string;
+  film_host: number;
+};
+
+export type Member = {
+  id: number;
+  member_name: string;
+};
+
+export type Review = {
+  member_id: number;
+  film_id: number;
+  review_initial_rating: number;
+  review_like: boolean;
+  review_final_rating: number;
+};
+
+// ========== END USED TYPES ==========
 
 export type Customer = {
   id: string;
