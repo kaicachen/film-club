@@ -2,13 +2,13 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-async function listFilms() {
+export async function GET() {
 	const data = await sql`
     SELECT *
     FROM films
   `;
 
-	return data;
+	return Response.json(data);
 }
 
 // export async function GET() {
