@@ -1,6 +1,6 @@
 import { FilmCard } from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import listFilms from '@/app/ui/dashboard/list-films';
+import ListFilms from '@/app/ui/dashboard/list-films';
 import { lusitana } from '@/app/ui/fonts';
  
 export default async function Page() {
@@ -11,7 +11,7 @@ export default async function Page() {
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* <FilmCard title="Films" value={listFilms}/> */}
-        <listFilms listFilms={listFilms}/>
+        <ListFilms listFilms={listFilms}/>
         {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
         {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
         {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
