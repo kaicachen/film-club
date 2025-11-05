@@ -114,7 +114,7 @@ export default function ListReviewsOrdered({
 
                     {/* Member Rows */}
                     <div className="divide-y divide-gray-200">
-                        {listMembersOrdered.map((film) => (
+                        {listReviewsOrdered.map((film) => (
                             <div
                                 key={film.film_id}
                                 className="grid grid-cols-7 gap-4 py-3 px-6 items-center text-sm md:text-base"
