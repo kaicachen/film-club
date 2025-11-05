@@ -71,7 +71,7 @@ export async function fetchMemberReviewSummary(
       }
     })();
 
-    const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
+    const direction = sortOrder === 'lowest' ? sql`ASC` : sql`DESC`;
     const data = await sql<MemberReview[]>`
       SELECT * 
       FROM member_review_summary
