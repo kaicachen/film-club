@@ -6,9 +6,9 @@ import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/
 import { lusitana } from '@/app/ui/fonts';
 import { MemberReview } from '@/app/lib/definitions';
 
-export default function ListReviewssOrdered({
-    listReviewsOrdered,
-}: Readonly<{ listReviewsOrdered: MemberReview[] }>) {
+export default function ListMembersOrdered({
+    listMembersOrdered,
+}: Readonly<{ listMembersOrdered: MemberReview[] }>) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
