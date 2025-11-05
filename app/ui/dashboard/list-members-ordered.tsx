@@ -43,8 +43,8 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                     onChange={handleCriteriaChange}
                     className="rounded-md border border-gray-300 px-2 py-1 text-sm"
                 >
-                    <option value="avg_final_rating">AVG Final Rating</option>
-                    <option value="percent_likes">Percent Likes</option>
+                    <option value="avg_final_rating">Average Final Rating</option>
+                    <option value="percent_likes">Percent Liked</option>
                     <option value="review_count">Number of Reviews</option>
                 </select>
                 <label htmlFor="sort" className="mr-2 text-sm text-gray-600">
@@ -56,8 +56,8 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                     onChange={handleSortChange}
                     className="rounded-md border border-gray-300 px-2 py-1 text-sm"
                 >
-                    <option value="newest">Highest first</option>
-                    <option value="oldest">Lowest first</option>
+                    <option value="highest">Highest</option>
+                    <option value="lowest">Lowest</option>
                 </select>
             </div>
         {/* Film List */}
@@ -78,7 +78,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                             width={64}
                             height={64}
                         /> */}
-                        <div className="min-w-0">
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 {member.member_name}
                             </p>
@@ -89,7 +89,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                                 Hosted: {member.host_count}
                             </p>
                         </div>
-                        <div>
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Initial Rating:
                             </p>
@@ -97,7 +97,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                                 {member.avg_initial_rating}
                             </p>
                         </div>
-                        <div>
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Final Rating:
                             </p>
@@ -105,7 +105,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                                 {member.avg_final_rating}
                             </p>
                         </div>
-                        <div>
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Percent Liked:
                             </p>
@@ -113,7 +113,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                                 {member.percent_likes}%
                             </p>
                         </div>
-                        <div>
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Std Dev:
                             </p>
@@ -121,7 +121,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                                 {member.rating_change_stddev}
                             </p>
                         </div>
-                        <div>
+                        <div className="min-w-0 p-4">
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Rating Change:
                             </p>
