@@ -1,34 +1,22 @@
-import postgres from 'postgres';
-import { Film } from '@/app/lib/definitions'
+import ListFilmsOrdered from '@/app/ui/dashboard/list-films-ordered';
 import { lusitana } from '@/app/ui/fonts';
-
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
-
-export default async function FilmsPage() {
-    const filmsData = await sql<Film[]>`
-    SELECT *
-    FROM films
-  `;
-
-    const films = filmsData.map((f) => ({ ...f}));
-
-    return (
- <main style={{ padding: '2rem' }}>
+import { fetchFilms, fetchFilmsOrdered } from '@/app/lib/data';
+ 
+export default async function Page({
+  searchParams, }: Readonly<{
+    seaarchParams: { sort?: 'newest' | 'oldest' };
+}>) {
+  
+  const sortOrder = searchParams.sort === 'oldest' ? 'oldest' : 'newest';
+  const films = await fetchFilmsOrdered(sortOrder);
+  return (
+    <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-              Dashboard
-            </h1>
-      <ul className={`${lusitana.className} text-xl text-gray-800 md:text-xl md:leading-normal}`}>
-        {films.map((film) => (
-          <li key={film.id}>
-            <strong>{film.film_name}</strong> ({film.film_year_released}) {film.film_director}
-            {' | '}
-            Date Discussed:{' '}
-            {film.film_date_discussed
-              ? new Date(film.film_date_discussed).toLocaleDateString()
-              : 'N/A'}
-          </li>
-        ))}
-      </ul>
+        Films
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ListFilmsOrdered listFilmsOrdered={films}/>
+      </div>
     </main>
   );
 }
