@@ -3,14 +3,12 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchFilmReviewSummary } from '@/app/lib/data';
 
 export default async function Page({ searchParams }: any) {
-  const sortOrder: 'highest' | 'lowest' =
-      searchParams?.sort === 'lowest' ? 'lowest' : 'highest';
-  const validCriteria = ['avg_final_rating', 'percent_likes', 'review_count'] as const;
-  const criteriaParam = searchParams?.criteria;
-  const sortCriteria =
-      validCriteria.includes(criteriaParam) ? criteriaParam : 'avg_final_rating';
-
-  const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
+  // const sortOrder: 'highest' | 'lowest' =
+  //     searchParams?.sort === 'lowest' ? 'lowest' : 'highest';
+  // const validCriteria = ['avg_final_rating', 'percent_likes', 'review_count'] as const;
+  // const criteriaParam = searchParams?.criteria;
+  // const sortCriteria =
+  //     validCriteria.includes(criteriaParam) ? criteriaParam : 'avg_final_rating';
   const reviews = await fetchFilmReviewSummary();
   return (
     <main>
