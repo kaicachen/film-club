@@ -93,15 +93,23 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Initial Rating: {member.avg_initial_rating}
                             </p>
+                        </div>
+                        <div>
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Final Rating: {member.avg_final_rating}
                             </p>
+                        </div>
+                        <div>
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Percent Liked: {member.percent_likes}%
                             </p>
+                        </div>
+                        <div>
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Std Dev: {member.rating_change_stddev}
                             </p>
+                        </div>
+                        <div>
                             <p className="truncate text-sm font-semibold md:text-base">
                                 Avg Rating Change: {member.avg_rating_change}
                             </p>
