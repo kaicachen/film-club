@@ -4,7 +4,7 @@ import { fetchFilms, fetchFilmsOrdered } from '@/app/lib/data';
  
 export default async function Page({
   searchParams, }: Readonly<{
-    seaarchParams: { sort?: 'newest' | 'oldest' };
+    searchParams: { sort?: 'newest' | 'oldest' };
 }>) {
   
   const sortOrder = searchParams.sort === 'oldest' ? 'oldest' : 'newest';
