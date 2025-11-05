@@ -47,6 +47,15 @@ export type MemberReview = {
   host_count: number;
 }
 
+export type FilmReview = {
+  film_id: number;
+  film_name: string;
+  avg_initial_rating: number;
+  avg_final_rating: number;
+  like_percentage: number;
+  dislike_percentage: number;
+}
+
 // ========== END USED TYPES ==========
 
 export type Customer = {

@@ -8,7 +8,8 @@ import {
   Revenue,
   Film,
   Member,
-  MemberReview
+  MemberReview,
+  FilmReview
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -52,6 +53,19 @@ export async function fetchMembers() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch members data.');
+  }
+}
+
+export async function fetchFilmReviewSummary(): Promise<FilmReview[]> {
+  try {
+    const data = await sql<FilmReview[]>`
+      SELECT *
+      FROM film_review_summary;
+    `;
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch film review summary view data.');
   }
 }
 

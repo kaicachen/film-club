@@ -4,11 +4,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 // import clsx from 'clsx';
 import { lusitana } from '@/app/ui/fonts';
-import { MemberReview } from '@/app/lib/definitions';
+import { FilmReview } from '@/app/lib/definitions';
 
-export default function ListMembersOrdered({
-    listMembersOrdered,
-}: Readonly<{ listMembersOrdered: MemberReview[] }>) {
+export default function ListReviewsOrdered({
+    listReviewsOrdered,
+}: Readonly<{ listReviewsOrdered: FilmReview[] }>) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
@@ -56,8 +56,7 @@ export default function ListMembersOrdered({
                         className="rounded-md border border-gray-300 px-2 py-1 text-sm mr-4"
                     >
                         <option value="avg_final_rating">Average Final Rating</option>
-                        <option value="percent_likes">Percent Liked</option>
-                        <option value="review_count">Number of Reviews</option>
+                        <option value="percent_likes">Like Percentage</option>
                     </select>
 
                     <label htmlFor="sort" className="mr-2 text-sm text-gray-600">
@@ -78,8 +77,7 @@ export default function ListMembersOrdered({
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
                     {/* Sticky Sortable Header Row */}
                     <div className="sticky top-0 z-10 grid grid-cols-7 gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
-                        <div>Member</div>
-                        <div>Reviews / Hosted</div>
+                        <div>Film</div>
 
                         <button
                             onClick={() => handleCriteriaChange('avg_initial_rating')}
@@ -98,49 +96,36 @@ export default function ListMembersOrdered({
                         </button>
 
                         <button
-                            onClick={() => handleCriteriaChange('percent_likes')}
+                            onClick={() => handleCriteriaChange('like_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
-                            Percent Liked
-                            <SortIcon column="percent_likes" />
+                            Like Percentage
+                            <SortIcon column="like_percentage" />
                         </button>
 
                         <button
-                            onClick={() => handleCriteriaChange('rating_change_stddev')}
+                            onClick={() => handleCriteriaChange('dislike_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
-                            Std Dev
-                            <SortIcon column="rating_change_stddev" />
-                        </button>
-
-                        <button
-                            onClick={() => handleCriteriaChange('avg_rating_change')}
-                            className="flex items-center hover:text-blue-600 transition"
-                        >
-                            Avg Rating Change
-                            <SortIcon column="avg_rating_change" />
+                            Dislike Percentage
+                            <SortIcon column="dislike_percentage" />
                         </button>
                     </div>
 
                     {/* Member Rows */}
                     <div className="divide-y divide-gray-200">
-                        {listMembersOrdered.map((member) => (
+                        {listMembersOrdered.map((film) => (
                             <div
-                                key={member.member_id}
+                                key={film.film_id}
                                 className="grid grid-cols-7 gap-4 py-3 px-6 items-center text-sm md:text-base"
                             >
                                 <div className="font-semibold truncate">
-                                    {member.member_name}
+                                    {film.film_name}
                                 </div>
-                                <div className="text-gray-600">
-                                    <div>Reviews: {member.review_count}</div>
-                                    <div>Hosted: {member.host_count}</div>
-                                </div>
-                                <div>{member.avg_initial_rating}</div>
-                                <div>{member.avg_final_rating}</div>
-                                <div>{member.percent_likes}%</div>
-                                <div>{member.rating_change_stddev}</div>
-                                <div>{member.avg_rating_change}</div>
+                                <div>{film.avg_initial_rating}</div>
+                                <div>{film.avg_final_rating}</div>
+                                <div>{film.like_percentage}%</div>
+                                <div>{film.dislike_percentage}</div>
                             </div>
                         ))}
                     </div>
