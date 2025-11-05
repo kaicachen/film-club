@@ -35,6 +35,18 @@ export type Review = {
   review_final_rating: number;
 };
 
+export type MemberReview = {
+  member_id: number;
+  member_name: string;
+  avg_initial_rating: number;
+  avg_final_rating: number;
+  percent_likes: number;
+  rating_change_stddev: number;
+  avg_rating_change: number;
+  review_count: number;
+  host_count: number;
+}
+
 // ========== END USED TYPES ==========
 
 export type Customer = {

@@ -7,7 +7,8 @@ import {
   LatestInvoiceRaw,
   Revenue,
   Film,
-  Member
+  Member,
+  MemberReview
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -25,7 +26,7 @@ export async function fetchFilms() {
 
 export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest'): Promise<Film[]> {
   try {
- const ascending = sortOrder === 'oldest';
+  const ascending = sortOrder === 'oldest';
   const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed ${ascending ? sql`ASC` : sql`DESC` }; `;
   return data
   } catch (error) {
@@ -51,6 +52,20 @@ export async function fetchMembers() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch members data.');
+  }
+}
+
+export async function fetchMemberReviewSummary(sortCriteria:
+  'avg_final_rating' | 'percent_likes' | 'review_count' = 'avg_final_rating', sortOrder: 'highest' | 'lowest' = 'highest')
+  : Promise<MemberReview[]> {
+  try {
+    const sort_criteria = sortCriteria === 'avg_final_rating';
+    const ascending = sortOrder === 'lowest';
+    const data = await sql<MemberReview[]>`SELECT * FROM member_review_summary ORDER BY ${sort_criteria} ${ascending ? sql`ASC` : sql`DESC`};`;
+    return data
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch member review summary view data.');
   }
 }
 

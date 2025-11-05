@@ -18,7 +18,16 @@ const links = [
     href: '/dashboard/films',
     icon: DocumentDuplicateIcon,
   },
-  { name: 'Members', href: '/dashboard/members', icon: UserGroupIcon },
+  { 
+    name: 'Members',
+    href: '/dashboard/members',
+    icon: UserGroupIcon
+  },
+  { 
+    name: 'Reviews',
+    href: '/dashboard/reviews',
+    icon: UserGroupIcon
+  },
 ];
 
 export default function NavLinks() {
