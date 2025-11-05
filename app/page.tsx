@@ -18,18 +18,14 @@ export default function Page() {
             className="relative w-0 h-0 border-l-15 border-r-15 border-b-26 border-l-transparent border-r-transparent border-b-black"
           /> */}
           <p className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
-            </a>
-            , brought to you by Vercel.
+            <strong>Welcome to Film Club.</strong> <br></br> This is the new and improved place to view stats for our little film discussion club, brought to you by Kai Achen.
           </p>
-          <Link
+          {/* <Link
             href="/login"
             className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
           >
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
+          </Link> */}
           <Link
             href="/dashboard"
             className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
@@ -37,22 +33,22 @@ export default function Page() {
             <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
         </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
+        <div className="flex items-center flex-col justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
+            src="/piper_birthday.jpg"
+            width={250}
+            height={100}
             className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop version"
+            alt="My dog, Piper, wearing her birthday hat"
           />
           <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
+            src="/timmy_sit.jpg"
+            width={250}
+            height={100}
             className="block md:hidden"
-            alt="Screenshots of the dashboard project showing mobile version"
+            alt="My cat, Timmy, sitting like an old man"
           />
+          <p className={`${lusitana.className} text-xl text-gray-800 md:text-xl md:leading-normal px-6`}> One of my pets, depending on your device type.</p>
         </div>
       </div>
     </main>
