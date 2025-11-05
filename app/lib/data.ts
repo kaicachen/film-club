@@ -26,8 +26,8 @@ export async function fetchFilms() {
 
 export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest'): Promise<Film[]> {
   try {
-  const ascending = sortOrder === 'oldest';
-  const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed ${ascending ? sql`ASC` : sql`DESC` }; `;
+  const direction = sortOrder === 'oldest' ? sql`ASC` : sql`DESC` ;
+  const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed ${direction}; `;
   return data
   } catch (error) {
     console.error('Database Error:', error);
@@ -59,9 +59,9 @@ export async function fetchMemberReviewSummary(sortCriteria:
   'avg_final_rating' | 'percent_likes' | 'review_count' = 'avg_final_rating', sortOrder: 'highest' | 'lowest' = 'highest')
   : Promise<MemberReview[]> {
   try {
-    const sort_criteria = sortCriteria === 'avg_final_rating';
-    const ascending = sortOrder === 'lowest';
-    const data = await sql<MemberReview[]>`SELECT * FROM member_review_summary ORDER BY ${sort_criteria} ${ascending ? sql`ASC` : sql`DESC`};`;
+    const sort_criteria = sql.identifier([sortCriteria]);
+    const direction = sortOrder === 'lowest' ? sql`ASC`: sql`DESC`;
+    const data = await sql<MemberReview[]>`SELECT * FROM member_review_summary ORDER BY ${sort_criteria} ${direction};`;
     return data
   } catch (error) {
     console.error('Database Error:', error);
