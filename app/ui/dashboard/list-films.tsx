@@ -50,11 +50,6 @@ export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
                     </p>
                   </div>
                 </div>
-                <p
-                  className={`${lusitana.className} truncate text-sm font-medium md:text-base`}
-                >
-                  Host ID: {film.film_host}
-                </p>
               </div>
             );
           })}
