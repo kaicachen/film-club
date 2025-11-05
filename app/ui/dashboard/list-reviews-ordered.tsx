@@ -84,7 +84,7 @@ export default function ListReviewsOrdered({
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Initial Rating
-                            <SortIcon column="avg_initial_rating" />
+                            {/* <SortIcon column="avg_initial_rating" /> */}
                         </button>
 
                         <button
@@ -92,7 +92,7 @@ export default function ListReviewsOrdered({
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Final Rating
-                            <SortIcon column="avg_final_rating" />
+                            {/* <SortIcon column="avg_final_rating" /> */}
                         </button>
 
                         <button
@@ -100,7 +100,7 @@ export default function ListReviewsOrdered({
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Like Percentage
-                            <SortIcon column="like_percentage" />
+                            {/* <SortIcon column="like_percentage" /> */}
                         </button>
 
                         <button
@@ -108,7 +108,7 @@ export default function ListReviewsOrdered({
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Dislike Percentage
-                            <SortIcon column="dislike_percentage" />
+                            {/* <SortIcon column="dislike_percentage" /> */}
                         </button>
                     </div>
 
