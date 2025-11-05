@@ -91,27 +91,42 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
                         </div>
                         <div>
                             <p className="truncate text-sm font-semibold md:text-base">
-                                Avg Initial Rating: {member.avg_initial_rating}
+                                Avg Initial Rating:
+                            </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {member.avg_initial_rating}
                             </p>
                         </div>
                         <div>
                             <p className="truncate text-sm font-semibold md:text-base">
-                                Avg Final Rating: {member.avg_final_rating}
+                                Avg Final Rating:
+                            </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {member.avg_final_rating}
                             </p>
                         </div>
                         <div>
                             <p className="truncate text-sm font-semibold md:text-base">
-                                Percent Liked: {member.percent_likes}%
+                                Percent Liked:
+                            </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {member.percent_likes}%
                             </p>
                         </div>
                         <div>
                             <p className="truncate text-sm font-semibold md:text-base">
-                                Std Dev: {member.rating_change_stddev}
+                                Std Dev:
+                            </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {member.rating_change_stddev}
                             </p>
                         </div>
                         <div>
                             <p className="truncate text-sm font-semibold md:text-base">
-                                Avg Rating Change: {member.avg_rating_change}
+                                Avg Rating Change:
+                            </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {member.avg_rating_change}
                             </p>
                         </div>
                     </div>
