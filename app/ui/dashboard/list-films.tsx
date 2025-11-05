@@ -26,11 +26,11 @@ export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
               >
                 <div className="flex items-center">
                   <Image
-                    src={`${film_poster_path}$film.film_poster_url`}
+                    src={`${film_poster_path}${film.film_poster_url}`}
                     alt={`${film.film_name}'s poster`}
-                    className="mr-4 rounded-full"
-                    width={32}
-                    height={32}
+                    className="mr-4 full"
+                    width={64}
+                    height={64}
                   />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
