@@ -64,7 +64,7 @@ export default function ListMembersOrdered({ listMembersOrdered }: Readonly<{ li
         <div className="bg-white px-6">
             {listMembersOrdered.map((member, i) => (
                 <div
-                    key={member.id}
+                    key={member.member_id}
                     className={clsx(
                         'flex flex-row items-center justify-between py-4',
                         { 'border-t': i !== 0 }
