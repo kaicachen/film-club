@@ -9,43 +9,43 @@ import { FilmReview } from '@/app/lib/definitions';
 export default function ListReviewsOrdered({
     listReviewsOrdered,
 }: Readonly<{ listReviewsOrdered: FilmReview[] }>) {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
-    const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
+    // const router = useRouter();
+    // const searchParams = useSearchParams();
+    // const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
+    // const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
 
-    // Handle changes for dropdowns
-    const handleSortChange = (newSort: string) => {
-        const params = new URLSearchParams(searchParams);
-        params.set('sort', newSort);
-        router.push(`?${params.toString()}`);
-    };
+    // // Handle changes for dropdowns
+    // const handleSortChange = (newSort: string) => {
+    //     const params = new URLSearchParams(searchParams);
+    //     params.set('sort', newSort);
+    //     router.push(`?${params.toString()}`);
+    // };
 
-    const handleCriteriaChange = (newCriteria: string) => {
-        const params = new URLSearchParams(searchParams);
-        // if same column clicked, flip order
-        if (currentCriteria === newCriteria) {
-            params.set('sort', currentSortOrder === 'highest' ? 'lowest' : 'highest');
-        }
-        params.set('criteria', newCriteria);
-        router.push(`?${params.toString()}`);
-    };
+    // const handleCriteriaChange = (newCriteria: string) => {
+    //     const params = new URLSearchParams(searchParams);
+    //     // if same column clicked, flip order
+    //     if (currentCriteria === newCriteria) {
+    //         params.set('sort', currentSortOrder === 'highest' ? 'lowest' : 'highest');
+    //     }
+    //     params.set('criteria', newCriteria);
+    //     router.push(`?${params.toString()}`);
+    // };
 
-    // Helper to render sort icon
-    const SortIcon = ({ column }: { column: string }) => {
-        if (currentCriteria !== column) return null;
-        return currentSortOrder === 'highest' ? (
-            <ChevronUpIcon className="inline h-4 w-4 ml-1 text-gray-600" />
-        ) : (
-            <ChevronDownIcon className="inline h-4 w-4 ml-1 text-gray-600" />
-        );
-    };
+    // // Helper to render sort icon
+    // const SortIcon = ({ column }: { column: string }) => {
+    //     if (currentCriteria !== column) return null;
+    //     return currentSortOrder === 'highest' ? (
+    //         <ChevronUpIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+    //     ) : (
+    //         <ChevronDownIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+    //     );
+    // };
 
     return (
         <div className="flex w-full flex-col md:col-span-4">
             <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
                 {/* Sort Controls */}
-                <div className="flex justify-end mb-4 flex-wrap gap-2">
+                {/* <div className="flex justify-end mb-4 flex-wrap gap-2">
                     <label htmlFor="criteria" className="mr-2 text-sm text-gray-600">
                         Sort Criteria:
                     </label>
@@ -71,7 +71,7 @@ export default function ListReviewsOrdered({
                         <option value="highest">Highest</option>
                         <option value="lowest">Lowest</option>
                     </select>
-                </div>
+                </div> */}
 
                 {/* Scrollable Container */}
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
@@ -80,7 +80,7 @@ export default function ListReviewsOrdered({
                         <div>Film</div>
 
                         <button
-                            onClick={() => handleCriteriaChange('avg_initial_rating')}
+                            // onClick={() => handleCriteriaChange('avg_initial_rating')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Initial Rating
@@ -88,7 +88,7 @@ export default function ListReviewsOrdered({
                         </button>
 
                         <button
-                            onClick={() => handleCriteriaChange('avg_final_rating')}
+                            // onClick={() => handleCriteriaChange('avg_final_rating')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Final Rating
@@ -96,7 +96,7 @@ export default function ListReviewsOrdered({
                         </button>
 
                         <button
-                            onClick={() => handleCriteriaChange('like_percentage')}
+                            // onClick={() => handleCriteriaChange('like_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Like Percentage
@@ -104,7 +104,7 @@ export default function ListReviewsOrdered({
                         </button>
 
                         <button
-                            onClick={() => handleCriteriaChange('dislike_percentage')}
+                            // onClick={() => handleCriteriaChange('dislike_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Dislike Percentage
