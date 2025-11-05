@@ -14,6 +14,7 @@ export default async function Page({ searchParams }: any) {
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Reviews</h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <h2 className={`${lusitana.className} mb-4 text-l md:text-2xl`}>Reviews Summary</h2>
         <ListReviewsOrdered listReviewsOrdered={reviews} />
       </div>
     </main>

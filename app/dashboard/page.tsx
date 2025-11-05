@@ -1,9 +1,11 @@
 import ListFilms from '@/app/ui/dashboard/list-films';
+import ListReviewsOrdered from '../ui/dashboard/list-reviews-ordered';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchFilms, fetchLatestFilm } from '@/app/lib/data';
+import { fetchFilmReviewSummary, fetchLatestFilm } from '@/app/lib/data';
  
 export default async function Page() {
   const films = await fetchLatestFilm();
+  const reviews = await fetchFilmReviewSummary();
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -25,8 +27,8 @@ export default async function Page() {
         /> */}
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        {/* <RevenueChart revenue={revenue}  /> */}
-        {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
+        <h2 className={`${lusitana.className} mb-4 text-l md:text-2xl`}>Reviews Summary</h2>
+        <ListReviewsOrdered listReviewsOrdered={reviews} />
       </div>
     </main>
   );
