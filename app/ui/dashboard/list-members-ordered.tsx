@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { lusitana } from '@/app/ui/fonts';
 import { MemberReview } from '@/app/lib/definitions';
@@ -11,21 +11,34 @@ export default function ListMembersOrdered({
 }: Readonly<{ listMembersOrdered: MemberReview[] }>) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const sort = searchParams.get('sort') === 'highest' ? 'lowest' : 'highest';
-    const criteria = searchParams.get('criteria') || 'avg_final_rating';
+    const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
+    const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
 
-    const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newSort = e.target.value;
+    // Handle changes for dropdowns
+    const handleSortChange = (newSort: string) => {
         const params = new URLSearchParams(searchParams);
         params.set('sort', newSort);
         router.push(`?${params.toString()}`);
     };
 
-    const handleCriteriaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newCriteria = e.target.value;
+    const handleCriteriaChange = (newCriteria: string) => {
         const params = new URLSearchParams(searchParams);
+        // if same column clicked, flip order
+        if (currentCriteria === newCriteria) {
+            params.set('sort', currentSortOrder === 'highest' ? 'lowest' : 'highest');
+        }
         params.set('criteria', newCriteria);
         router.push(`?${params.toString()}`);
+    };
+
+    // Helper to render sort icon
+    const SortIcon = ({ column }: { column: string }) => {
+        if (currentCriteria !== column) return null;
+        return currentSortOrder === 'highest' ? (
+            <ChevronUpIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+        ) : (
+            <ChevronDownIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+        );
     };
 
     return (
@@ -38,8 +51,8 @@ export default function ListMembersOrdered({
                     </label>
                     <select
                         id="criteria"
-                        value={criteria}
-                        onChange={handleCriteriaChange}
+                        value={currentCriteria}
+                        onChange={(e) => handleCriteriaChange(e.target.value)}
                         className="rounded-md border border-gray-300 px-2 py-1 text-sm mr-4"
                     >
                         <option value="avg_final_rating">Average Final Rating</option>
@@ -52,8 +65,8 @@ export default function ListMembersOrdered({
                     </label>
                     <select
                         id="sort"
-                        value={sort}
-                        onChange={handleSortChange}
+                        value={currentSortOrder}
+                        onChange={(e) => handleSortChange(e.target.value)}
                         className="rounded-md border border-gray-300 px-2 py-1 text-sm"
                     >
                         <option value="highest">Highest</option>
@@ -61,17 +74,52 @@ export default function ListMembersOrdered({
                     </select>
                 </div>
 
-                {/* Scrollable container for header + members */}
+                {/* Scrollable Container */}
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
-                    {/* Sticky Header Row */}
+                    {/* Sticky Sortable Header Row */}
                     <div className="sticky top-0 z-10 grid grid-cols-7 gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
                         <div>Member</div>
                         <div>Reviews / Hosted</div>
-                        <div>Avg Initial Rating</div>
-                        <div>Avg Final Rating</div>
-                        <div>Percent Liked</div>
-                        <div>Std Dev</div>
-                        <div>Avg Rating Change</div>
+
+                        <button
+                            onClick={() => handleCriteriaChange('avg_initial_rating')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Avg Initial Rating
+                            <SortIcon column="avg_initial_rating" />
+                        </button>
+
+                        <button
+                            onClick={() => handleCriteriaChange('avg_final_rating')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Avg Final Rating
+                            <SortIcon column="avg_final_rating" />
+                        </button>
+
+                        <button
+                            onClick={() => handleCriteriaChange('percent_likes')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Percent Liked
+                            <SortIcon column="percent_likes" />
+                        </button>
+
+                        <button
+                            onClick={() => handleCriteriaChange('rating_change_stddev')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Std Dev
+                            <SortIcon column="rating_change_stddev" />
+                        </button>
+
+                        <button
+                            onClick={() => handleCriteriaChange('avg_rating_change')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Avg Rating Change
+                            <SortIcon column="avg_rating_change" />
+                        </button>
                     </div>
 
                     {/* Member Rows */}

@@ -55,19 +55,35 @@ export async function fetchMembers() {
   }
 }
 
-export async function fetchMemberReviewSummary(sortCriteria:
-  'avg_final_rating' | 'percent_likes' | 'review_count' = 'avg_final_rating', sortOrder: 'highest' | 'lowest' = 'highest')
-  : Promise<MemberReview[]> {
+export async function fetchMemberReviewSummary(
+  sortCriteria: 'avg_final_rating' | 'percent_likes' | 'review_count' = 'avg_final_rating',
+  sortOrder: 'highest' | 'lowest' = 'highest'
+): Promise<MemberReview[]> {
   try {
-    const sort_criteria = sql.identifier([sortCriteria]);
-    const direction = sortOrder === 'lowest' ? sql`ASC`: sql`DESC`;
-    const data = await sql<MemberReview[]>`SELECT * FROM member_review_summary ORDER BY ${sort_criteria} ${direction};`;
-    return data
+    const sortColumn = (() => {
+      switch (sortCriteria) {
+        case 'avg_final_rating':
+          return 'avg_final_rating';
+        case 'percent_likes':
+          return 'percent_likes';
+        case 'review_count':
+          return 'review_count';
+      }
+    })();
+
+    const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
+    const data = await sql<MemberReview[]>`
+      SELECT * 
+      FROM member_review_summary
+      ORDER BY ${sql(sortColumn)} ${sql(direction)};
+    `;
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch member review summary view data.');
   }
 }
+
 
 export async function fetchRevenue() {
   try {
