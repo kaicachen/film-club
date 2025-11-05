@@ -1,13 +1,16 @@
 import ListFilmsOrdered from '@/app/ui/dashboard/list-films-ordered';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchFilms, fetchFilmsOrdered } from '@/app/lib/data';
- 
-export default async function Page({
-  searchParams, }: Readonly<{
-    searchParams: { sort?: 'newest' | 'oldest' };
-}>) {
+
+interface PageProps {
+  searchParams?: {
+    sort?: 'newest' | 'oldest';
+  };
+}
+
+export default async function Page({ searchParams }: PageProps) {
   
-  const sortOrder = searchParams.sort === 'oldest' ? 'oldest' : 'newest';
+  const sortOrder = searchParams?.sort === 'oldest' ? 'oldest' : 'newest';
   const films = await fetchFilmsOrdered(sortOrder);
   return (
     <main>
