@@ -75,7 +75,7 @@ export async function fetchMemberReviewSummary(
     const data = await sql<MemberReview[]>`
       SELECT * 
       FROM member_review_summary
-      ORDER BY ${sql(sortColumn)} ${sql(direction)};
+      ORDER BY ${sortColumn} ${direction};
     `;
     return data;
   } catch (error) {
