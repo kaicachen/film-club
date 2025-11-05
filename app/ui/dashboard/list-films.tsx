@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { Film } from '@/app/lib/definitions';
 export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
+  const film_poster_path = "/film-posters/";
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Latest Films
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        {/* NOTE: Uncomment this code in Chapter 7 */}
 
         <div className="bg-white px-6">
           {listFilms.map((film, i) => {
@@ -26,7 +26,7 @@ export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
               >
                 <div className="flex items-center">
                   <Image
-                    src={film.film_poster_url}
+                    src={`${film_poster_path}$film.film_poster_url`}
                     alt={`${film.film_name}'s poster`}
                     className="mr-4 rounded-full"
                     width={32}
@@ -43,7 +43,9 @@ export default function ListFilms({ listFilms, }: { listFilms: Film[];}) {
                       {film.film_director}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
-                      Discussed: {film.film_date_discussed}
+                      Discussed: {film.film_date_discussed
+                                  ? new Date(film.film_date_discussed).toLocaleDateString()
+                                  : 'N/A'}
                     </p>
                   </div>
                 </div>
