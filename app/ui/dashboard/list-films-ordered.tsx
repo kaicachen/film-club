@@ -59,28 +59,23 @@ export default function ListFilmsOrdered({ listFilmsOrdered }: Readonly<{ listFi
                             height={64}
                         />
                         <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold md:text-base">
-                            {film.film_name}
-                        </p>
-                        <p className="hidden text-sm text-gray-500 sm:block">
-                            ({film.film_year_released})
-                        </p>
-                        <p className="hidden text-sm text-gray-500 sm:block">
-                            {film.film_director}
-                        </p>
-                        <p className="hidden text-sm text-gray-500 sm:block">
-                            Discussed:{' '}
-                            {film.film_date_discussed
-                            ? new Date(film.film_date_discussed).toLocaleDateString()
-                            : 'N/A'}
-                        </p>
+                            <p className="truncate text-sm font-semibold md:text-base">
+                                {film.film_name}
+                            </p>
+                            <p className="hidden text-sm text-gray-500 sm:block">
+                                ({film.film_year_released})
+                            </p>
+                            <p className="hidden text-sm text-gray-500 sm:block">
+                                {film.film_director}
+                            </p>
+                            <p className="hidden text-sm text-gray-500 sm:block">
+                                Discussed:{' '}
+                                {film.film_date_discussed
+                                ? new Date(film.film_date_discussed).toLocaleDateString()
+                                : 'N/A'}
+                            </p>
                         </div>
                     </div>
-                    <p
-                        className={`${lusitana.className} truncate text-sm font-medium md:text-base`}
-                    >
-                        Host ID: {film.film_host}
-                    </p>
                 </div>
             ))}
         </div>
