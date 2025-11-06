@@ -6,40 +6,40 @@ import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/
 import { lusitana } from '@/app/ui/fonts';
 import { FilmReview } from '@/app/lib/definitions';
 
-export default function ListReviewsOrdered({
-    listReviewsOrdered,
-}: Readonly<{ listReviewsOrdered: FilmReview[] }>) {
-    // const router = useRouter();
-    // const searchParams = useSearchParams();
-    // const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
-    // const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
+export default function ListReviewSummaryOrdered({
+    listReviewSummaryOrdered,
+}: Readonly<{ listReviewSummaryOrdered: FilmReview[] }>) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
+    const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
 
-    // // Handle changes for dropdowns
+    // Handle changes for dropdowns
     // const handleSortChange = (newSort: string) => {
     //     const params = new URLSearchParams(searchParams);
     //     params.set('sort', newSort);
     //     router.push(`?${params.toString()}`);
     // };
 
-    // const handleCriteriaChange = (newCriteria: string) => {
-    //     const params = new URLSearchParams(searchParams);
-    //     // if same column clicked, flip order
-    //     if (currentCriteria === newCriteria) {
-    //         params.set('sort', currentSortOrder === 'highest' ? 'lowest' : 'highest');
-    //     }
-    //     params.set('criteria', newCriteria);
-    //     router.push(`?${params.toString()}`);
-    // };
+    const handleCriteriaChange = (newCriteria: string) => {
+        const params = new URLSearchParams(searchParams);
+        // if same column clicked, flip order
+        if (currentCriteria === newCriteria) {
+            params.set('sort', currentSortOrder === 'highest' ? 'lowest' : 'highest');
+        }
+        params.set('criteria', newCriteria);
+        router.push(`?${params.toString()}`);
+    };
 
-    // // Helper to render sort icon
-    // const SortIcon = ({ column }: { column: string }) => {
-    //     if (currentCriteria !== column) return null;
-    //     return currentSortOrder === 'highest' ? (
-    //         <ChevronUpIcon className="inline h-4 w-4 ml-1 text-gray-600" />
-    //     ) : (
-    //         <ChevronDownIcon className="inline h-4 w-4 ml-1 text-gray-600" />
-    //     );
-    // };
+    // Helper to render sort icon
+    const SortIcon = ({ column }: { column: string }) => {
+        if (currentCriteria !== column) return null;
+        return currentSortOrder === 'highest' ? (
+            <ChevronUpIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+        ) : (
+            <ChevronDownIcon className="inline h-4 w-4 ml-1 text-gray-600" />
+        );
+    };
 
     return (
         <div className="flex w-full flex-col md:col-span-4">
@@ -80,60 +80,60 @@ export default function ListReviewsOrdered({
                         <div>Film</div>
 
                         <button
-                            // onClick={() => handleCriteriaChange('avg_initial_rating')}
+                            onClick={() => handleCriteriaChange('avg_initial_rating')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Initial Rating
-                            {/* <SortIcon column="avg_initial_rating" /> */}
+                            <SortIcon column="avg_initial_rating" />
                         </button>
 
                         <button
-                            // onClick={() => handleCriteriaChange('avg_final_rating')}
+                            onClick={() => handleCriteriaChange('avg_final_rating')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Avg Final Rating
-                            {/* <SortIcon column="avg_final_rating" /> */}
+                            <SortIcon column="avg_final_rating" />
                         </button>
 
                         <button
-                            // onClick={() => handleCriteriaChange('like_percentage')}
+                            onClick={() => handleCriteriaChange('like_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Like Percentage
-                            {/* <SortIcon column="like_percentage" /> */}
+                            <SortIcon column="like_percentage" />
                         </button>
 
                         <button
-                            // onClick={() => handleCriteriaChange('dislike_percentage')}
+                            onClick={() => handleCriteriaChange('dislike_percentage')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Dislike Percentage
-                            {/* <SortIcon column="dislike_percentage" /> */}
+                            <SortIcon column="dislike_percentage" />
                         </button>
                         <button
-                            // onClick={() => handleCriteriaChange('dislike_percentage')}
+                            onClick={() => handleCriteriaChange('reviews_count')}
                             className="flex items-center hover:text-blue-600 transition"
                         >
                             Review Count
-                            {/* <SortIcon column="dislike_percentage" /> */}
+                            <SortIcon column="reviews_count" />
                         </button>
                     </div>
 
                     {/* Member Rows */}
                     <div className="divide-y divide-gray-200">
-                        {listReviewsOrdered.map((film) => (
+                        {listReviewSummaryOrdered.map((review) => (
                             <div
-                                key={film.film_id}
+                                key={review.film_id}
                                 className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
                             >
                                 <div className="font-semibold truncate">
-                                    {film.film_name}
+                                    {review.film_name}
                                 </div>
-                                <div>{film.avg_initial_rating}</div>
-                                <div>{film.avg_final_rating}</div>
-                                <div>{film.like_percentage}%</div>
-                                <div>{film.dislike_percentage}%</div>
-                                <div>{film.ratings_count}</div>
+                                <div>{review.avg_initial_rating}</div>
+                                <div>{review.avg_final_rating}</div>
+                                <div>{review.like_percentage}%</div>
+                                <div>{review.dislike_percentage}%</div>
+                                <div>{review.reviews_count}</div>
                             </div>
                         ))}
                     </div>

@@ -54,7 +54,7 @@ export type FilmReview = {
   avg_final_rating: number;
   like_percentage: number;
   dislike_percentage: number;
-  ratings_count: number;
+  reviews_count: number;
 }
 
 // ========== END USED TYPES ==========

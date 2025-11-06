@@ -67,6 +67,47 @@ export async function fetchReviews() {
   }
 }
 
+export async function fetchReviewsOrdered(
+  sortCriteria:
+    | 'film_id'
+    | 'member_id'
+    | 'review_initial_rating'
+    | 'review_final_rating'
+    | 'review_like',
+  sortOrder: 'highest' | 'lowest' = 'highest'
+): Promise<Review[]> {
+  try {
+    const validColumns = [
+      'film_id',
+      'member_id',
+      'review_initial_rating',
+      'review_final_rating',
+      'review_like',
+    ] as const;
+
+    const sortColumn = validColumns.includes(sortCriteria)
+      ? sortCriteria
+      : 'review_final_rating';
+
+    const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
+
+    const query = `
+      SELECT *
+      FROM reviews
+      LEFT JOIN members m ON m.id = r.member_id
+      ORDER BY ${sortColumn} ${direction};
+    `;
+
+    // console.log('Query:', query);
+
+    const data = await sql.unsafe<Review[]>(query);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch members data.');
+  }
+}
+
 export async function fetchFilmReviewSummary(): Promise<FilmReview[]> {
   try {
     const data = await sql<FilmReview[]>`
@@ -77,6 +118,46 @@ export async function fetchFilmReviewSummary(): Promise<FilmReview[]> {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch film review summary view data.');
+  }
+}
+
+export async function fetchFilmReviewSummaryOrdered(
+  sortCriteria:
+    | 'avg_initial_rating'
+    | 'avg_final_rating'
+    | 'like_percentage'
+    | 'dislike_percentage'
+    | 'reviews_count' = 'avg_final_rating',
+  sortOrder: 'highest' | 'lowest' = 'highest'
+): Promise<FilmReview[]> {
+  try {
+    const validColumns = [
+      'avg_initial_rating',
+      'avg_final_rating',
+      'like_percentage',
+      'dislike_percentage',
+      'reviews_count',
+    ] as const;
+
+    const sortColumn = validColumns.includes(sortCriteria)
+      ? sortCriteria
+      : 'avg_final_rating';
+
+    const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
+
+    const query = `
+      SELECT *
+      FROM film_review_summary
+      ORDER BY ${sortColumn} ${direction};
+    `;
+
+    // console.log('Query:', query);
+
+    const data = await sql.unsafe<FilmReview[]>(query);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch member review summary view data.');
   }
 }
 
