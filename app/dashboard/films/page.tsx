@@ -3,8 +3,10 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchFilmsOrdered } from '@/app/lib/data';
 
 export default async function Page({ searchParams }: any) {
+  const resolvedSearchParams = await searchParams
+  
   const sortOrder: 'newest' | 'oldest' =
-    searchParams?.sort === 'oldest' ? 'oldest' : 'newest';
+    resolvedSearchParams?.sort === 'oldest' ? 'oldest' : 'newest';
 
   const films = await fetchFilmsOrdered(sortOrder);
 

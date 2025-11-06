@@ -15,11 +15,11 @@ export default function ListMembersOrdered({
     const currentCriteria = searchParams.get('criteria') || 'avg_final_rating';
 
     // Handle changes for dropdowns
-    const handleSortChange = (newSort: string) => {
-        const params = new URLSearchParams(searchParams);
-        params.set('sort', newSort);
-        router.push(`?${params.toString()}`);
-    };
+    // const handleSortChange = (newSort: string) => {
+    //     const params = new URLSearchParams(searchParams);
+    //     params.set('sort', newSort);
+    //     router.push(`?${params.toString()}`);
+    // };
 
     const handleCriteriaChange = (newCriteria: string) => {
         const params = new URLSearchParams(searchParams);
@@ -29,6 +29,7 @@ export default function ListMembersOrdered({
         }
         params.set('criteria', newCriteria);
         router.push(`?${params.toString()}`);
+        console.log('Fetching members for:', currentCriteria, currentSortOrder);
     };
 
     // Helper to render sort icon
@@ -45,7 +46,7 @@ export default function ListMembersOrdered({
         <div className="flex w-full flex-col md:col-span-4">
             <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
                 {/* Sort Controls */}
-                <div className="flex justify-end mb-4 flex-wrap gap-2">
+                {/* <div className="flex justify-end mb-4 flex-wrap gap-2">
                     <label htmlFor="criteria" className="mr-2 text-sm text-gray-600">
                         Sort Criteria:
                     </label>
@@ -72,15 +73,20 @@ export default function ListMembersOrdered({
                         <option value="highest">Highest</option>
                         <option value="lowest">Lowest</option>
                     </select>
-                </div>
+                </div> */}
 
                 {/* Scrollable Container */}
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
                     {/* Sticky Sortable Header Row */}
-                    <div className="sticky top-0 z-10 grid grid-cols-7 gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
+                    <div className="sticky top-0 z-10 grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
                         <div>Member</div>
-                        <div>Reviews / Hosted</div>
-
+                        <button
+                            onClick={() => handleCriteriaChange('review_count')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Reviews / Hosted
+                            <SortIcon column="review_count" />
+                        </button>
                         <button
                             onClick={() => handleCriteriaChange('avg_initial_rating')}
                             className="flex items-center hover:text-blue-600 transition"
@@ -127,7 +133,7 @@ export default function ListMembersOrdered({
                         {listMembersOrdered.map((member) => (
                             <div
                                 key={member.member_id}
-                                className="grid grid-cols-7 gap-4 py-3 px-6 items-center text-sm md:text-base"
+                                className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
                             >
                                 <div className="font-semibold truncate">
                                     {member.member_name}

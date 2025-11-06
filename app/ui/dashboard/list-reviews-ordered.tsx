@@ -76,7 +76,7 @@ export default function ListReviewsOrdered({
                 {/* Scrollable Container */}
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
                     {/* Sticky Sortable Header Row */}
-                    <div className="sticky top-0 z-10 grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
+                    <div className="sticky top-0 z-10 grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
                         <div>Film</div>
 
                         <button
@@ -110,6 +110,13 @@ export default function ListReviewsOrdered({
                             Dislike Percentage
                             {/* <SortIcon column="dislike_percentage" /> */}
                         </button>
+                        <button
+                            // onClick={() => handleCriteriaChange('dislike_percentage')}
+                            className="flex items-center hover:text-blue-600 transition"
+                        >
+                            Review Count
+                            {/* <SortIcon column="dislike_percentage" /> */}
+                        </button>
                     </div>
 
                     {/* Member Rows */}
@@ -117,7 +124,7 @@ export default function ListReviewsOrdered({
                         {listReviewsOrdered.map((film) => (
                             <div
                                 key={film.film_id}
-                                className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
+                                className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
                             >
                                 <div className="font-semibold truncate">
                                     {film.film_name}
@@ -126,6 +133,7 @@ export default function ListReviewsOrdered({
                                 <div>{film.avg_final_rating}</div>
                                 <div>{film.like_percentage}%</div>
                                 <div>{film.dislike_percentage}%</div>
+                                <div>{film.ratings_count}</div>
                             </div>
                         ))}
                     </div>

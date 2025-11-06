@@ -8,6 +8,7 @@ import {
   Revenue,
   Film,
   Member,
+  Review,
   MemberReview,
   FilmReview
 } from './definitions';
@@ -18,7 +19,7 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export async function fetchFilms() {
   try {
   const data = await sql<Film[]>`SELECT * FROM films`;
-  return data
+  return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch films data.');
@@ -29,7 +30,7 @@ export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest
   try {
   const direction = sortOrder === 'oldest' ? sql`ASC` : sql`DESC` ;
   const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed ${direction}; `;
-  return data
+  return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch ordered films data.');
@@ -39,7 +40,7 @@ export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest
 export async function fetchLatestFilm(): Promise<Film[]> {
   try {
     const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed DESC LIMIT 1;`;
-    return data
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch latest film data.');
@@ -49,7 +50,17 @@ export async function fetchLatestFilm(): Promise<Film[]> {
 export async function fetchMembers() {
   try {
   const data = await sql<Member[]>`SELECT * FROM members`;
-  return data
+  return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch members data.');
+  }
+}
+
+export async function fetchReviews() {
+  try {
+    const data = await sql<Review[]>`SELECT * FROM reviews ORDER BY film_id`;
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch members data.');
@@ -70,27 +81,40 @@ export async function fetchFilmReviewSummary(): Promise<FilmReview[]> {
 }
 
 export async function fetchMemberReviewSummary(
-  sortCriteria: 'avg_final_rating' | 'percent_likes' | 'review_count' = 'avg_final_rating',
+  sortCriteria:
+    | 'avg_initial_rating'
+    | 'avg_final_rating'
+    | 'percent_likes'
+    | 'rating_change_stddev'
+    | 'avg_rating_change'
+    | 'review_count' = 'avg_final_rating',
   sortOrder: 'highest' | 'lowest' = 'highest'
 ): Promise<MemberReview[]> {
   try {
-    const sortColumn = (() => {
-      switch (sortCriteria) {
-        case 'avg_final_rating':
-          return 'avg_final_rating';
-        case 'percent_likes':
-          return 'percent_likes';
-        case 'review_count':
-          return 'review_count';
-      }
-    })();
+    const validColumns = [
+      'avg_initial_rating',
+      'avg_final_rating',
+      'percent_likes',
+      'rating_change_stddev',
+      'avg_rating_change',
+      'review_count',
+    ] as const;
 
-    const direction = sortOrder === 'lowest' ? sql`ASC` : sql`DESC`;
-    const data = await sql<MemberReview[]>`
-      SELECT * 
+    const sortColumn = validColumns.includes(sortCriteria)
+      ? sortCriteria
+      : 'avg_final_rating';
+
+    const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
+
+    const query = `
+      SELECT *
       FROM member_review_summary
       ORDER BY ${sortColumn} ${direction};
     `;
+
+    // console.log('Query:', query);
+
+    const data = await sql.unsafe<MemberReview[]>(query);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
