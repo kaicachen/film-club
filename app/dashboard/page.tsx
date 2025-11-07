@@ -1,10 +1,10 @@
 import ListFilms from '@/app/ui/dashboard/list-films';
 import ListReviewSummaryOrdered from '../ui/dashboard/list-review-summary-ordered';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchLatestFilm, fetchFilmReviewSummaryOrdered } from '@/app/lib/data';
+import { fetchLatestFilm, fetchFilmReviewSummaryOrdered, fetchFilmsOrdered } from '@/app/lib/data';
 
 export default async function Page({ searchParams }: any) {
-  const films = await fetchLatestFilm();
+  const latest_film = await fetchLatestFilm();
   const resolvedSearchParams = await searchParams;
   const sortOrder: 'highest' | 'lowest' =
       resolvedSearchParams?.sort === 'lowest' ? 'lowest' : 'highest';
@@ -13,6 +13,7 @@ export default async function Page({ searchParams }: any) {
   const sortCriteria =
       validCriteria.includes(criteriaParam) ? criteriaParam : 'avg_final_rating';
   const reviews = await fetchFilmReviewSummaryOrdered(sortCriteria, sortOrder);
+  const films = await fetchFilmsOrdered();
 
   return (
     <main>
@@ -24,13 +25,13 @@ export default async function Page({ searchParams }: any) {
           <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
             Latest Film Discussed
           </h2>
-          <ListFilms listFilms={films} />
+          <ListFilms listFilms={latest_film} />
         </div>
         <div className="flex-1">
           <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
             Reviews Summary
           </h2>
-          <ListReviewSummaryOrdered listReviewSummaryOrdered={reviews} />
+          <ListReviewSummaryOrdered listReviewSummaryOrdered={reviews} listFilmsOrdered={films} />
         </div>
       </div>
     </main>
