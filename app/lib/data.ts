@@ -75,7 +75,7 @@ export async function fetchReviewsOrdered(
     | 'review_final_rating'
     | 'review_like',
   sortOrder: 'highest' | 'lowest' = 'highest'
-): Promise<Review[]> {
+): Promise<any[]> {
   try {
     const validColumns = [
       'film_id',
@@ -92,21 +92,32 @@ export async function fetchReviewsOrdered(
     const direction = sortOrder === 'lowest' ? 'ASC' : 'DESC';
 
     const query = `
-      SELECT *
-      FROM reviews
-      LEFT JOIN members m ON m.id = r.member_id
-      ORDER BY ${sortColumn} ${direction};
+      SELECT 
+        r.film_id,
+        r.member_id,
+        r.review_initial_rating,
+        r.review_final_rating,
+        r.review_like,
+        m.member_name,
+        m.member_username,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url
+      FROM reviews r
+      JOIN members m ON r.member_id = m.id
+      JOIN films f ON r.film_id = f.id
+      ORDER BY r.${sortColumn} ${direction};
     `;
 
-    // console.log('Query:', query);
-
-    const data = await sql.unsafe<Review[]>(query);
+    const data = await sql.unsafe(query);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch members data.');
+    throw new Error('Failed to fetch reviews data.');
   }
 }
+
 
 export async function fetchFilmReviewSummary(): Promise<FilmReview[]> {
   try {
