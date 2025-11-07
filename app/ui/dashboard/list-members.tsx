@@ -24,7 +24,6 @@ export default function ListMembers({ listMembers, }: { listMembers: Member[];})
                       {member.member_name}
                     </p>
                 </div>
-              </div>
             );
           })}
         </div>
