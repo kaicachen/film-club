@@ -47,6 +47,94 @@ export async function fetchLatestFilm(): Promise<Film[]> {
   }
 }
 
+export async function fetchHighestRatedFilm(): Promise<any[]> {
+  try {
+    const data = await sql.unsafe(`
+    SELECT 
+        r.film_id,
+        r.avg_final_rating,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url,
+        f.film_date_discussed
+      FROM film_review_summary r
+      JOIN films f ON r.film_id = f.id
+      ORDER BY r.avg_final_rating DESC
+      LIMIT 1;`);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch latest film data.');
+  }
+}
+
+export async function fetchLowestRatedFilm(): Promise<any[]> {
+  try {
+    const data = await sql.unsafe(`
+    SELECT 
+        r.film_id,
+        r.avg_final_rating,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url,
+        f.film_date_discussed
+      FROM film_review_summary r
+      JOIN films f ON r.film_id = f.id
+      ORDER BY r.avg_final_rating ASC
+      LIMIT 1;`);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch latest film data.');
+  }
+}
+
+export async function fetchMostLikedFilm(): Promise<any[]> {
+  try {
+    const data = await sql.unsafe(`
+    SELECT 
+        r.film_id,
+        r.like_percentage,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url,
+        f.film_date_discussed
+      FROM film_review_summary r
+      JOIN films f ON r.film_id = f.id
+      ORDER BY r.avg_like_percentage DESC
+      LIMIT 1;`);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch latest film data.');
+  }
+}
+
+export async function fetchLeastLikedFilm(): Promise<any[]> {
+  try {
+    const data = await sql.unsafe(`
+    SELECT 
+        r.film_id,
+        r.like_percentage,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url,
+        f.film_date_discussed
+      FROM film_review_summary r
+      JOIN films f ON r.film_id = f.id
+      ORDER BY r.avg_like_percentage ASC
+      LIMIT 1;`);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch latest film data.');
+  }
+}
+
 export async function fetchMembers() {
   try {
   const data = await sql<Member[]>`SELECT * FROM members`;

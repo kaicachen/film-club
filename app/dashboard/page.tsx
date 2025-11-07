@@ -1,39 +1,41 @@
 import ListFilms from '@/app/ui/dashboard/list-films';
-import ListReviewSummaryOrdered from '../ui/dashboard/list-review-summary-ordered';
+import HighLowFilm from '../ui/dashboard/high-low-film';
+import LikeDislikeFilm from '../ui/dashboard/like-dislike-film';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchLatestFilm, fetchFilmReviewSummaryOrdered, fetchFilmsOrdered } from '@/app/lib/data';
+import { fetchLatestFilm, fetchHighestRatedFilm, fetchLowestRatedFilm, fetchMostLikedFilm, fetchLeastLikedFilm } from '@/app/lib/data';
 
 export default async function Page({ searchParams }: any) {
   const latest_film = await fetchLatestFilm();
-  const resolvedSearchParams = await searchParams;
-  const sortOrder: 'highest' | 'lowest' =
-      resolvedSearchParams?.sort === 'lowest' ? 'lowest' : 'highest';
-  const validCriteria = ['avg_final_rating', 'like_percentage', 'reviews_count', 'avg_initial_rating', 'dislike_percentage'] as const;
-  const criteriaParam = resolvedSearchParams?.criteria;
-  const sortCriteria =
-      validCriteria.includes(criteriaParam) ? criteriaParam : 'avg_final_rating';
-  const reviews = await fetchFilmReviewSummaryOrdered(sortCriteria, sortOrder);
-  const films = await fetchFilmsOrdered();
+  const highest_film = await fetchHighestRatedFilm();
+  const lowest_film = await fetchLowestRatedFilm();
+  const most_liked_film = await fetchMostLikedFilm();
+  const least_liked_film = await fetchLeastLikedFilm();
 
   return (
     <main>
       <h1 className={`${lusitana.className} mb-6 text-xl md:text-2xl`}>
         Dashboard
       </h1>
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1">
-          <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-            Latest Film Discussed
-          </h2>
-          <ListFilms listFilms={latest_film} />
-        </div>
-        <div className="flex-1">
-          <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-            Reviews Summary
-          </h2>
-          <ListReviewSummaryOrdered listReviewSummaryOrdered={reviews} listFilmsOrdered={films} />
-        </div>
-      </div>
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Latest Film Discussed
+      </h2>
+      <ListFilms listFilms={latest_film} />
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Highest Rated Film
+      </h2>
+      <HighLowFilm highLowFilm={highest_film}/>
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Lowest Rated Film
+      </h2>
+      <HighLowFilm highLowFilm={lowest_film}/>
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Most Liked Film
+      </h2>
+      <LikeDislikeFilm likeDislikeFilm={most_liked_film}/>
+      <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Least Liked Film
+      </h2>
+      <LikeDislikeFilm likeDislikeFilm={least_liked_film}/>
     </main>
   );
 }
