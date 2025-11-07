@@ -104,7 +104,7 @@ export async function fetchMostLikedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.avg_like_percentage DESC
+      ORDER BY r.like_percentage DESC
       LIMIT 1;`);
     return data;
   } catch (error) {
@@ -126,7 +126,7 @@ export async function fetchLeastLikedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.avg_like_percentage ASC
+      ORDER BY r.like_percentage ASC
       LIMIT 1;`);
     return data;
   } catch (error) {
