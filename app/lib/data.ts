@@ -99,11 +99,11 @@ export async function fetchReviewsOrdered(
         r.review_final_rating,
         r.review_like,
         m.member_name,
-        m.member_username,
         f.film_name,
         f.film_director,
         f.film_year_released,
-        f.film_poster_url
+        f.film_poster_url,
+        f.film_date_discussed
       FROM reviews r
       JOIN members m ON r.member_id = m.id
       JOIN films f ON r.film_id = f.id
