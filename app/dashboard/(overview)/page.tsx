@@ -1,6 +1,6 @@
 import ListFilms from '@/app/ui/dashboard/list-films';
-import HighLowFilm from '../ui/dashboard/high-low-film';
-import LikeDislikeFilm from '../ui/dashboard/like-dislike-film';
+import HighLowFilm from '../../ui/dashboard/high-low-film';
+import LikeDislikeFilm from '../../ui/dashboard/like-dislike-film';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchLatestFilm, fetchHighestRatedFilm, fetchLowestRatedFilm, fetchMostLikedFilm, fetchLeastLikedFilm } from '@/app/lib/data';
 
