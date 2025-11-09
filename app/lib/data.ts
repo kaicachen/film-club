@@ -60,8 +60,11 @@ export async function fetchHighestRatedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.avg_final_rating DESC
-      LIMIT 1;`);
+      WHERE r.avg_final_rating = (
+        SELECT MAX(avg_final_rating)
+        FROM film_review_summary
+      )
+      ORDER BY f.film_name;`);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
@@ -82,8 +85,11 @@ export async function fetchLowestRatedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.avg_final_rating ASC
-      LIMIT 1;`);
+      WHERE r.avg_final_rating = (
+        SELECT MIN(avg_final_rating)
+        FROM film_review_summary
+      )
+      ORDER BY f.film_name;`);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
@@ -104,8 +110,11 @@ export async function fetchMostLikedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.like_percentage DESC
-      LIMIT 1;`);
+      WHERE r.like_percentage = (
+        SELECT MAX(like_percentage)
+        FROM film_review_summary
+      )
+      ORDER BY f.film_name;`);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
@@ -126,8 +135,11 @@ export async function fetchLeastLikedFilm(): Promise<any[]> {
         f.film_date_discussed
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
-      ORDER BY r.like_percentage ASC
-      LIMIT 1;`);
+      WHERE r.like_percentage = (
+        SELECT MIN(like_percentage)
+        FROM film_review_summary
+      )
+      ORDER BY f.film_name;`);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
