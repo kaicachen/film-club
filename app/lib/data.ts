@@ -54,10 +54,7 @@ export async function fetchHighestRatedFilm(): Promise<any[]> {
         r.film_id,
         r.avg_final_rating,
         f.film_name,
-        f.film_director,
-        f.film_year_released,
-        f.film_poster_url,
-        f.film_date_discussed
+        f.film_poster_url
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
       WHERE r.avg_final_rating = (
@@ -79,10 +76,7 @@ export async function fetchLowestRatedFilm(): Promise<any[]> {
         r.film_id,
         r.avg_final_rating,
         f.film_name,
-        f.film_director,
-        f.film_year_released,
-        f.film_poster_url,
-        f.film_date_discussed
+        f.film_poster_url
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
       WHERE r.avg_final_rating = (
@@ -104,10 +98,7 @@ export async function fetchMostLikedFilm(): Promise<any[]> {
         r.film_id,
         r.like_percentage,
         f.film_name,
-        f.film_director,
-        f.film_year_released,
-        f.film_poster_url,
-        f.film_date_discussed
+        f.film_poster_url
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
       WHERE r.like_percentage = (
@@ -129,10 +120,7 @@ export async function fetchLeastLikedFilm(): Promise<any[]> {
         r.film_id,
         r.like_percentage,
         f.film_name,
-        f.film_director,
-        f.film_year_released,
-        f.film_poster_url,
-        f.film_date_discussed
+        f.film_poster_url
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
       WHERE r.like_percentage = (

@@ -6,10 +6,7 @@ type JoinedFilm = {
   film_id: number;
   like_percentage: number;
   film_name: string;
-  film_director: string;
-  film_year_released: number;
   film_poster_url: string;
-  film_date_discussed: string;
 };
 
 export default function LikeDislikeFilm({ likeDislikeFilm, }: { likeDislikeFilm: JoinedFilm[];}) {
