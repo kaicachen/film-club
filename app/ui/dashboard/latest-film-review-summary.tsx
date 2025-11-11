@@ -19,7 +19,7 @@ type LatestFilm = {
 };
 
 
-export default function LatestFilmSummary() {
+export default async function LatestFilmSummary() {
     // const router = useRouter();
     // const searchParams = useSearchParams();
     // const currentSortOrder = searchParams.get('sort') === 'lowest' ? 'lowest' : 'highest';
