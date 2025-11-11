@@ -1,5 +1,18 @@
-## Next.js App Router Course - Starter
+# [Film Club Website](https://film-club-blond.vercel.app/)
+This is a project I used to learn the following tech stack:
+- Vercel (NextJS, TypeScript)
+- Supabase (PostgreSQL)
+- Tailwind CSS
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+## Reference Material:
+- [Learn NextJS](https://nextjs.org/learn)
+- [Vercel Documentation](https://vercel.com/docs)
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+## Site Features:
+- Partial Rendering for Faster Page Changes
+
+## TODO:
+- User Auth and Profiles
+- Safe POST Request Forms for Users to Add Reviews
+- Accessibility
+- Metadata (SEO)
