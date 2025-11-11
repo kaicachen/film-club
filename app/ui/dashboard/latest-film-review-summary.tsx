@@ -75,6 +75,7 @@ export default async function LatestFilmSummary() {
                                                 height={64}
                                             />
                                         )}
+                                        {review.film_name}
                                     </div>
                                     <div>{review.avg_initial_rating}</div>
                                     <div>{review.avg_final_rating}</div>
