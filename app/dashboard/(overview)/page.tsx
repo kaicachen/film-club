@@ -1,11 +1,10 @@
-import ListFilms from '@/app/ui/dashboard/list-films';
+import LatestFilmSummary from '@/app/ui/dashboard/latest-film-review-summary';
 import HighLowFilm from '../../ui/dashboard/high-low-film';
 import LikeDislikeFilm from '../../ui/dashboard/like-dislike-film';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchLatestFilm, fetchHighestRatedFilm, fetchLowestRatedFilm, fetchMostLikedFilm, fetchLeastLikedFilm } from '@/app/lib/data';
+import { fetchHighestRatedFilm, fetchLowestRatedFilm, fetchMostLikedFilm, fetchLeastLikedFilm } from '@/app/lib/data';
 
 export default async function Page({ searchParams }: any) {
-  const latest_film = await fetchLatestFilm();
   const highest_film = await fetchHighestRatedFilm();
   const lowest_film = await fetchLowestRatedFilm();
   const most_liked_film = await fetchMostLikedFilm();
@@ -19,7 +18,7 @@ export default async function Page({ searchParams }: any) {
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Latest Film Discussed
       </h2>
-      <ListFilms listFilms={latest_film} />
+      <LatestFilmSummary />
       <div className="flex w-full grid-cols-4">
         <div>
           <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>

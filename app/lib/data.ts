@@ -37,9 +37,31 @@ export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest
   }
 }
 
-export async function fetchLatestFilm(): Promise<Film[]> {
+// export async function fetchLatestFilm(): Promise<Film[]> {
+//   try {
+//     const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed DESC LIMIT 1;`;
+//     return data;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch latest film data.');
+//   }
+// }
+
+export async function fetchLatestFilm(): Promise<any[]> {
   try {
-    const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed DESC LIMIT 1;`;
+    const data = await sql.unsafe(`
+    SELECT 
+        r.film_id,
+        r.avg_final_rating,
+        r.avg_initial_rating,
+        r.like_percentage,
+        r.reviews_count,
+        f.film_name,
+        f.film_poster_url
+      FROM film_review_summary r
+      JOIN films f ON r.film_id = f.id
+      ORDER BY f.film_date_discussed DESC
+      LIMIT 1;`);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
