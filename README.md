@@ -16,3 +16,4 @@ This is a project I used to learn the following tech stack:
 - Safe POST Request Forms for Users to Add Reviews
 - Accessibility
 - Metadata (SEO)
+- Mobile Responsiveness (table layout issues)
