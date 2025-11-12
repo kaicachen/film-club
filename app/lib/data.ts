@@ -343,20 +343,22 @@ export async function fetchMemberReviewSummary(
 export async function fetchMemberReviewChartData(member_id: number) {
   try {
     const query = `
-      SELECT r.review_final_rating AS rating, COUNT(*) AS count
+      SELECT
+        r.review_final_rating,
+        COUNT(*) AS review_count
       FROM reviews r
       WHERE r.member_id = ${member_id}
       GROUP BY r.review_final_rating
       ORDER BY r.review_final_rating;
     `;
-
-    const data = await sql.unsafe<{ rating: number; count: number }[]>(query);
+    const data = await sql.unsafe(query);
     return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch member review chart data.');
   }
 }
+
 
 
 export async function fetchRevenue() {

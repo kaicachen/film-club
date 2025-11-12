@@ -3,7 +3,11 @@ export const revalidate = 0;
 
 import ListMembersOrdered from '@/app/ui/dashboard/list-members-ordered';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchMemberReviewSummary, fetchMembers, fetchMemberReviewChartData } from '@/app/lib/data';
+import {
+  fetchMemberReviewSummary,
+  fetchMembers,
+  fetchMemberReviewChartData,
+} from '@/app/lib/data';
 import MemberReviewChart from '@/app/ui/dashboard/member-review-chart';
 import Link from 'next/link';
 
@@ -27,13 +31,22 @@ export default async function Page({ searchParams }: any) {
     ? criteriaParam
     : 'avg_final_rating';
 
-  // Fetch the members list
+  // Fetch data
+  const allMembers = await fetchMembers();
   const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
 
-  // --- NEW: Member Review Chart Data ---
-  const allMembers = await fetchMembers();
-  const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
+  // Determine selected member (preserve query params)
+  const member_id =
+    Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
+
   const chartData = await fetchMemberReviewChartData(member_id);
+
+  // Build base query params to preserve existing filters
+  const preservedParams = new URLSearchParams();
+  if (resolvedSearchParams?.criteria)
+    preservedParams.set('criteria', resolvedSearchParams.criteria);
+  if (resolvedSearchParams?.sort)
+    preservedParams.set('sort', resolvedSearchParams.sort);
 
   return (
     <main>
@@ -55,26 +68,31 @@ export default async function Page({ searchParams }: any) {
           Member Review Ratings
         </h2>
 
-        {/* Member selector (server-rendered links) */}
+        {/* Member selector (server-rendered links preserving filters) */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <p className="text-gray-700 font-medium mr-2">Select Member:</p>
-          {allMembers.map((m) => (
-            <Link
-              key={m.id}
-              href={`?member_id=${m.id}`}
-              className={`rounded-md px-3 py-1 text-sm font-medium border transition
-                ${
-                  Number(member_id) === m.id
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
-                }`}
-            >
-              {m.member_name}
-            </Link>
-          ))}
+          {allMembers.map((m) => {
+            const params = new URLSearchParams(preservedParams);
+            params.set('member_id', m.id.toString());
+
+            return (
+              <Link
+                key={m.id}
+                href={`?${params.toString()}`}
+                className={`rounded-md px-3 py-1 text-sm font-medium border transition
+                  ${
+                    Number(member_id) === m.id
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
+                  }`}
+              >
+                {m.member_name}
+              </Link>
+            );
+          })}
         </div>
 
-        <MemberReviewChart chartData={chartData} />
+        <MemberReviewChart chartData={chartData} selectedMemberId={member_id} />
       </div>
     </main>
   );
