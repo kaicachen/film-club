@@ -1,6 +1,7 @@
 import ListReviewSummaryOrdered from '@/app/ui/dashboard/list-review-summary-ordered';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchFilmReviewSummaryOrdered, fetchFilmsOrdered } from '@/app/lib/data';
+import ListReviewSummaryOrderedTest from '@/app/ui/dashboard/list-review-summary-ordered-test';
 
 export default async function Page({ searchParams }: any) {
   const resolvedSearchParams = await searchParams;
@@ -16,7 +17,7 @@ export default async function Page({ searchParams }: any) {
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Films</h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <ListReviewSummaryOrdered listReviewSummaryOrdered={reviews} listFilmsOrdered={films}/>
+        <ListReviewSummaryOrderedTest listReviewSummaryOrdered={reviews} listFilmsOrdered={films}/>
       </div>
     </main>
   );
