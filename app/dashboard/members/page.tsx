@@ -8,7 +8,7 @@ import {
   fetchMembers,
   fetchMemberReviewChartData,
 } from '@/app/lib/data';
-import MemberReviewChart from '@/app/ui/dashboard/member-review-chart';
+import MemberChart, { ReviewChartDatum } from '@/app/ui/dashboard/member-chart';
 import Link from 'next/link';
 
 export default async function Page({ searchParams }: any) {
@@ -31,22 +31,21 @@ export default async function Page({ searchParams }: any) {
     ? criteriaParam
     : 'avg_final_rating';
 
-  // Fetch data
+  // Fetch members data
   const allMembers = await fetchMembers();
   const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
 
-  // Determine selected member (preserve query params)
-  const member_id =
-    Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
+  // Determine selected member
+  const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
+  const selectedMember = allMembers.find((m) => m.id === member_id);
 
-  const chartData = await fetchMemberReviewChartData(member_id);
+  // Fetch chart data for the selected member
+  const chartData: ReviewChartDatum[] = await fetchMemberReviewChartData(member_id);
 
-  // Build base query params to preserve existing filters
+  // Build preserved query params for member links
   const preservedParams = new URLSearchParams();
-  if (resolvedSearchParams?.criteria)
-    preservedParams.set('criteria', resolvedSearchParams.criteria);
-  if (resolvedSearchParams?.sort)
-    preservedParams.set('sort', resolvedSearchParams.sort);
+  if (resolvedSearchParams?.criteria) preservedParams.set('criteria', resolvedSearchParams.criteria);
+  if (resolvedSearchParams?.sort) preservedParams.set('sort', resolvedSearchParams.sort);
 
   return (
     <main>
@@ -54,7 +53,7 @@ export default async function Page({ searchParams }: any) {
         Members
       </h1>
 
-      {/* Members list grid */}
+      {/* Members table */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <ListMembersOrdered
           key={`${sortCriteria}-${sortOrder}`}
@@ -62,26 +61,25 @@ export default async function Page({ searchParams }: any) {
         />
       </div>
 
-      {/* --- Member Review Chart Section --- */}
+      {/* Member Chart Section */}
       <div className="mt-10">
         <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Member Review Ratings
+          Review Ratings Distribution ({selectedMember?.member_name || 'Unknown'})
         </h2>
 
-        {/* Member selector (server-rendered links preserving filters) */}
+        {/* Member selector */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <p className="text-gray-700 font-medium mr-2">Select Member:</p>
           {allMembers.map((m) => {
             const params = new URLSearchParams(preservedParams);
             params.set('member_id', m.id.toString());
-
             return (
               <Link
                 key={m.id}
                 href={`?${params.toString()}`}
                 className={`rounded-md px-3 py-1 text-sm font-medium border transition
                   ${
-                    Number(member_id) === m.id
+                    member_id === m.id
                       ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
                   }`}
@@ -92,7 +90,8 @@ export default async function Page({ searchParams }: any) {
           })}
         </div>
 
-        <MemberReviewChart chartData={chartData} selectedMemberId={member_id} />
+        {/* Chart */}
+        <MemberChart chartData={chartData} />
       </div>
     </main>
   );
