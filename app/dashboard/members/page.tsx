@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: any) {
 
   // Determine selected member
   const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
-  const selectedMember = allMembers.find((m) => m.id === member_id);
+  const selectedMember = allMembers.find((m) => Number(m.id) === member_id);
 
   // Fetch chart data for the selected member
   const chartData: ReviewChartDatum[] = await fetchMemberReviewChartData(member_id);
@@ -70,24 +70,25 @@ export default async function Page({ searchParams }: any) {
         {/* Member selector */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <p className="text-gray-700 font-medium mr-2">Select Member:</p>
-          {allMembers.map((m) => {
-            const params = new URLSearchParams(preservedParams);
-            params.set('member_id', m.id.toString());
-            return (
-              <Link
-                key={m.id}
-                href={`?${params.toString()}`}
-                className={`rounded-md px-3 py-1 text-sm font-medium border transition
-                  ${
-                    member_id === m.id
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
-                  }`}
-              >
-                {m.member_name}
-              </Link>
-            );
-          })}
+            {allMembers.map((m) => {
+              const params = new URLSearchParams(preservedParams);
+              params.set('member_id', m.id.toString());
+
+              return (
+                <Link
+                  key={m.id}
+                  href={`?${params.toString()}`}
+                  className={`rounded-md px-3 py-1 text-sm font-medium border transition
+                    ${
+                      Number(m.id) === member_id
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
+                    }`}
+                >
+                  {m.member_name}
+                </Link>
+              );
+            })}
         </div>
 
         {/* Chart */}
