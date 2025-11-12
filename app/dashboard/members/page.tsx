@@ -33,7 +33,7 @@ export default async function Page({ searchParams }: any) {
 
   // Determine selected member
   const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
-  const selectedMember = allMembers.find(m => m.id === member_id);
+  const selectedMember = allMembers.find(m => Number(m.id) === member_id);
 
   // Fetch chart data for selected member
   const chartData: ReviewChartDatum[] = await fetchMemberReviewChartData(member_id);
