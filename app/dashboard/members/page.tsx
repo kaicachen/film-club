@@ -3,29 +3,79 @@ export const revalidate = 0;
 
 import ListMembersOrdered from '@/app/ui/dashboard/list-members-ordered';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchMemberReviewSummary } from '@/app/lib/data';
+import { fetchMemberReviewSummary, fetchMembers, fetchMemberReviewChartData } from '@/app/lib/data';
 import MemberReviewChart from '@/app/ui/dashboard/member-review-chart';
+import Link from 'next/link';
 
 export default async function Page({ searchParams }: any) {
-    const resolvedSearchParams = await searchParams;
-    const sortOrder: 'highest' | 'lowest' =
-        resolvedSearchParams?.sort === 'lowest' ? 'lowest' : 'highest';
-    const validCriteria = ['avg_final_rating', 'percent_likes', 'review_count', 'avg_intial_rating', 'rating_change_stddev', 'avg_rating_change'] as const;
-    const criteriaParam = resolvedSearchParams?.criteria;
-    const sortCriteria =
-        validCriteria.includes(criteriaParam) ? criteriaParam : 'avg_final_rating';
+  const resolvedSearchParams = await searchParams;
 
-    const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
+  // Sorting logic for members list
+  const sortOrder: 'highest' | 'lowest' =
+    resolvedSearchParams?.sort === 'lowest' ? 'lowest' : 'highest';
+  const validCriteria = [
+    'avg_final_rating',
+    'percent_likes',
+    'review_count',
+    'avg_intial_rating',
+    'rating_change_stddev',
+    'avg_rating_change',
+  ] as const;
 
-    return (
-        <main>
-        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Members</h1>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <ListMembersOrdered key={`${sortCriteria}-${sortOrder}`} listMembersOrdered={members}/>
+  const criteriaParam = resolvedSearchParams?.criteria;
+  const sortCriteria = validCriteria.includes(criteriaParam)
+    ? criteriaParam
+    : 'avg_final_rating';
+
+  // Fetch the members list
+  const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
+
+  // --- NEW: Member Review Chart Data ---
+  const member_id = Number(resolvedSearchParams?.member_id) || members[0]?.id || 1;
+  const allMembers = await fetchMembers();
+  const chartData = await fetchMemberReviewChartData(member_id);
+
+  return (
+    <main>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Members
+      </h1>
+
+      {/* Members list grid */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ListMembersOrdered
+          key={`${sortCriteria}-${sortOrder}`}
+          listMembersOrdered={members}
+        />
+      </div>
+
+      {/* --- Member Review Chart Section --- */}
+      <div className="mt-10">
+        <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+          Member Review Ratings
+        </h2>
+
+        {/* Member selector (server-rendered links) */}
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <p className="text-gray-700 font-medium mr-2">Select Member:</p>
+          {allMembers.map((m) => (
+            <Link
+              key={m.id}
+              href={`?member_id=${m.id}`}
+              className={`rounded-md px-3 py-1 text-sm font-medium border transition
+                ${
+                  Number(member_id) === m.id
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
+                }`}
+            >
+              {m.member_name}
+            </Link>
+          ))}
         </div>
-        <div className="">
-            <MemberReviewChart/>
-        </div>
-        </main>
-    );
+
+        <MemberReviewChart chartData={chartData} />
+      </div>
+    </main>
+  );
 }
