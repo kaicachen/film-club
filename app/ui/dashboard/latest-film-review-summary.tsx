@@ -19,7 +19,7 @@ export default async function LatestFilmSummary() {
     const film_poster_path = '/film-posters/';
 
     return (
-        <div className="flex w-full flex-col md:col-span-4">
+        <div className="flex w-full flex-col md:col-span-4 overflow-x-auto">
             <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
                     {/* Sticky Sortable Header Row */}
