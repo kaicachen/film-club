@@ -57,6 +57,10 @@ export type FilmReview = {
   reviews_count: number;
 }
 
+export type unusedType= {
+  id: number;
+}
+
 // ========== END USED TYPES ==========
 
 export type Customer = {
