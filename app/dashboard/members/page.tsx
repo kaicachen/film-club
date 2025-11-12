@@ -31,8 +31,8 @@ export default async function Page({ searchParams }: any) {
   const members = await fetchMemberReviewSummary(sortCriteria, sortOrder);
 
   // --- NEW: Member Review Chart Data ---
-  const member_id = Number(resolvedSearchParams?.member_id) || members[0]?.id || 1;
   const allMembers = await fetchMembers();
+  const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
   const chartData = await fetchMemberReviewChartData(member_id);
 
   return (
