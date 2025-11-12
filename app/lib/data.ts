@@ -157,15 +157,31 @@ export async function fetchLeastLikedFilm(): Promise<any[]> {
   }
 }
 
+// export async function fetchMembers() {
+//   try {
+//   const data = await sql<Member[]>`SELECT * FROM members`;
+//   return data;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch members data.');
+//   }
+// }
+
 export async function fetchMembers() {
   try {
-  const data = await sql<Member[]>`SELECT * FROM members`;
-  return data;
+    const query = `
+    SELECT id, member_name
+    FROM members
+    ORDER BY member_name;
+    `;
+    const data = await sql.unsafe<{ id: number; member_name: string }[]>(query);
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch members data.');
+    throw new Error ('Failed to fetch members data.');
   }
 }
+
 
 export async function fetchReviews() {
   try {
@@ -321,6 +337,24 @@ export async function fetchMemberReviewSummary(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch member review summary view data.');
+  }
+}
+
+export async function fetchMemberReviewChartData(member_id: number) {
+  try {
+    const query = `
+      SELECT r.review_final_rating AS rating, COUNT(*) AS count
+      FROM reviews r
+      WHERE r.member_id = ${member_id}
+      GROUP BY r.review_final_rating
+      ORDER BY r.review_final_rating;
+    `;
+
+    const data = await sql.unsafe<{ rating: number; count: number }[]>(query);
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch member review chart data.');
   }
 }
 

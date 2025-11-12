@@ -4,6 +4,7 @@ export const revalidate = 0;
 import ListMembersOrdered from '@/app/ui/dashboard/list-members-ordered';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchMemberReviewSummary } from '@/app/lib/data';
+import MemberReviewChart from '@/app/ui/dashboard/member-review-chart';
 
 export default async function Page({ searchParams }: any) {
     const resolvedSearchParams = await searchParams;
@@ -21,6 +22,9 @@ export default async function Page({ searchParams }: any) {
         <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Members</h1>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <ListMembersOrdered key={`${sortCriteria}-${sortOrder}`} listMembersOrdered={members}/>
+        </div>
+        <div className="">
+            <MemberReviewChart/>
         </div>
         </main>
     );
