@@ -57,9 +57,11 @@ export type FilmReview = {
   reviews_count: number;
 }
 
-export type unusedType= {
-  id: number;
-}
+export type ReviewChartDatum = {
+  review_final_rating: number;
+  review_count: number;
+};
+
 
 // ========== END USED TYPES ==========
 
