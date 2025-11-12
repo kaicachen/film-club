@@ -34,7 +34,7 @@ export default async function Page({ searchParams }: any) {
   const allMembers = await fetchMembers();
 
   // Determine selected member
-  const member_id = Number(resolvedSearchParams?.member_id) || members[0]?.id || 1;
+  const member_id = Number(resolvedSearchParams?.member_id) || allMembers[0]?.id || 1;
   const selectedMember = allMembers.find((m) => m.id === member_id);
 
   // Fetch chart data for the selected member
