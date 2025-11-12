@@ -76,7 +76,7 @@ export default async function Page({ searchParams }: any) {
                 href={`?${params.toString()}`}
                 className={`rounded-md px-3 py-1 text-sm font-medium border transition
                   ${
-                    member_id === m.id
+                    Number(member_id) === m.id
                       ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
                   }`}
