@@ -10,7 +10,8 @@ import {
   Member,
   Review,
   MemberReview,
-  FilmReview
+  FilmReview,
+  ReviewChartDatum
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -340,7 +341,7 @@ export async function fetchMemberReviewSummary(
   }
 }
 
-export async function fetchMemberReviewChartData(member_id: number) {
+export async function fetchMemberReviewChartData(member_id: number): Promise<ReviewChartDatum[]> {
   try {
     const query = `
       SELECT
@@ -351,15 +352,18 @@ export async function fetchMemberReviewChartData(member_id: number) {
       GROUP BY r.review_final_rating
       ORDER BY r.review_final_rating;
     `;
-    const data = await sql.unsafe(query);
-    return data;
+
+    const data = (await sql.unsafe(query)) as unknown as ReviewChartDatum[];
+
+    return data.map((row) => ({
+      review_final_rating: Number(row.review_final_rating),
+      review_count: Number(row.review_count),
+    }));
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch member review chart data.');
   }
 }
-
-
 
 export async function fetchRevenue() {
   try {
