@@ -58,6 +58,7 @@ export async function fetchLatestFilm(): Promise<any[]> {
         r.like_percentage,
         r.reviews_count,
         f.film_name,
+        f.film_date_discussed,
         f.film_poster_url
       FROM film_review_summary r
       JOIN films f ON r.film_id = f.id
