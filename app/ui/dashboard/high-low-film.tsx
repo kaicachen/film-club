@@ -1,5 +1,6 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
 
 type JoinedFilm = {
@@ -43,7 +44,7 @@ export default function HighLowFilm({ highLowFilm, }: { highLowFilm: JoinedFilm[
                 {/* <div>{film.film_director ?? '—'}</div>
                 <div>{film.film_year_released ?? '—'}</div>
                 <div>{film.film_date_discussed ? new Date(film.film_date_discussed).toLocaleDateString() : 'N/A'}</div> */}
-                <div>{film.avg_final_rating ?? '—'}</div>
+                <div>{convertToStars(film.avg_final_rating) ?? '—'}</div>
               </div>
             ))}
           </div>

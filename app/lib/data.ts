@@ -7,7 +7,7 @@ import {
   LatestInvoiceRaw,
   Revenue,
   Film,
-  Member,
+  // Member,
   Review,
   MemberReview,
   FilmReview,
@@ -37,16 +37,6 @@ export async function fetchFilmsOrdered(sortOrder: 'newest' | 'oldest' = 'newest
     throw new Error('Failed to fetch ordered films data.');
   }
 }
-
-// export async function fetchLatestFilm(): Promise<Film[]> {
-//   try {
-//     const data = await sql<Film[]>`SELECT * FROM films ORDER BY film_date_discussed DESC LIMIT 1;`;
-//     return data;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch latest film data.');
-//   }
-// }
 
 export async function fetchLatestFilm(): Promise<any[]> {
   try {

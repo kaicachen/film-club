@@ -1,5 +1,6 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchLatestFilm } from '@/app/lib/data';
 
@@ -77,8 +78,8 @@ export default async function LatestFilmSummary() {
                                         )}
                                         {review.film_name}
                                     </div>
-                                    <div>{review.avg_initial_rating}</div>
-                                    <div>{review.avg_final_rating}</div>
+                                    <div>{convertToStars(review.avg_initial_rating)}</div>
+                                    <div>{convertToStars(review.avg_final_rating)}</div>
                                     <div>{review.like_percentage}%</div>
                                     <div>{review.reviews_count}</div>
                                 </div>

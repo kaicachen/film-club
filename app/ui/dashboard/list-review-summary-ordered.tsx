@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 // import clsx from 'clsx';
 import Image from 'next/image';
+import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
 import { FilmReview, Film } from '@/app/lib/definitions';
 
@@ -116,8 +117,8 @@ export default function ListReviewSummaryOrdered({
                                             )}
                                         </div>
                                     </div>
-                                    <div>{review.avg_initial_rating}</div>
-                                    <div>{review.avg_final_rating}</div>
+                                    <div>{convertToStars(review.avg_initial_rating)}</div>
+                                    <div>{convertToStars(review.avg_final_rating)}</div>
                                     <div>{review.like_percentage}%</div>
                                     <div>{review.dislike_percentage}%</div>
                                     <div>{review.reviews_count}</div>

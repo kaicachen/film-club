@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-// import clsx from 'clsx';
+import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
 import { MemberReview } from '@/app/lib/definitions';
 
@@ -45,36 +45,6 @@ export default function ListMembersOrdered({
     return (
         <div className="flex w-full flex-col md:col-span-4">
             <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-                {/* Sort Controls */}
-                {/* <div className="flex justify-end mb-4 flex-wrap gap-2">
-                    <label htmlFor="criteria" className="mr-2 text-sm text-gray-600">
-                        Sort Criteria:
-                    </label>
-                    <select
-                        id="criteria"
-                        value={currentCriteria}
-                        onChange={(e) => handleCriteriaChange(e.target.value)}
-                        className="rounded-md border border-gray-300 px-2 py-1 text-sm mr-4"
-                    >
-                        <option value="avg_final_rating">Average Final Rating</option>
-                        <option value="percent_likes">Percent Liked</option>
-                        <option value="review_count">Number of Reviews</option>
-                    </select>
-
-                    <label htmlFor="sort" className="mr-2 text-sm text-gray-600">
-                        Sort Order:
-                    </label>
-                    <select
-                        id="sort"
-                        value={currentSortOrder}
-                        onChange={(e) => handleSortChange(e.target.value)}
-                        className="rounded-md border border-gray-300 px-2 py-1 text-sm"
-                    >
-                        <option value="highest">Highest</option>
-                        <option value="lowest">Lowest</option>
-                    </select>
-                </div> */}
-
                 {/* Scrollable Container */}
                 <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
                     {/* Sticky Sortable Header Row */}
@@ -142,8 +112,8 @@ export default function ListMembersOrdered({
                                     <div>Reviews: {member.review_count}</div>
                                     <div>Hosted: {member.host_count}</div>
                                 </div>
-                                <div>{member.avg_initial_rating}</div>
-                                <div>{member.avg_final_rating}</div>
+                                <div>{convertToStars(member.avg_initial_rating)}</div>
+                                <div>{convertToStars(member.avg_final_rating)}</div>
                                 <div>{member.percent_likes}%</div>
                                 <div>{member.rating_change_stddev}</div>
                                 <div>{member.avg_rating_change}</div>

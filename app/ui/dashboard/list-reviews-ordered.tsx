@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
 
 type JoinedReview = {
@@ -124,8 +125,8 @@ export default function ListReviewsOrdered({
                 {/* Member info */}
                 <div className="truncate">{review.member_name}</div>
 
-                <div>{review.review_initial_rating ?? '—'}</div>
-                <div>{review.review_final_rating ?? '—'}</div>
+                <div>{convertToStars(review.review_initial_rating) ?? '—'}</div>
+                <div>{convertToStars(review.review_final_rating) ?? '—'}</div>
                 <div>{review.review_like ? 'Like' : 'Dislike'}</div>
               </div>
             ))}
