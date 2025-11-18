@@ -1,3 +1,5 @@
+'use client';
+
 import { Member, Film } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
@@ -7,11 +9,14 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createReview } from '@/app/lib/actions';
+import { createReview, State } from '@/app/lib/actions';
+import { useActionState } from 'react';
 
 export default function Form({ members, films }: { members: Member[], films: Film[] }) {
+  const initialState: State = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createReview, initialState);
   return (
-    <form action={createReview}>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Member Name */}
         <div className="mb-4">
@@ -24,6 +29,8 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               name="member_id"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              aria-describedby="member-error"
+              required
             >
               <option value="" disabled>
                 Select a member
@@ -35,6 +42,14 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               ))}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          <div id="member-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.member_id &&
+              state.errors.member_id.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
         
@@ -49,6 +64,8 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               name="film_id"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              aria-describedby="film-error"
+              required
             >
               <option value="" disabled>
                 Select a film
@@ -61,51 +78,15 @@ export default function Form({ members, films }: { members: Member[], films: Fil
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          <div id="film-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.film_id &&
+              state.errors.film_id.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
-
-        {/* Initial Rating */}
-        {/* <div className="mb-4">
-          <label htmlFor="review_initial_rating" className="mb-2 block text-sm font-medium">
-            Enter an Initial Rating
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="review_initial_rating"
-                name="review_initial_rating"
-                type="number"
-                step="0.5"
-                min="0.5"
-                max="5"
-                placeholder="Enter initial rating"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-        </div> */}
-
-        {/* Final Rating */}
-        {/* <div className="mb-4">
-          <label htmlFor="review_final_rating" className="mb-2 block text-sm font-medium">
-            Enter an Final Rating
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="review_final_rating"
-                name="review_final_rating"
-                type="number"
-                step="0.5"
-                min="0.5"
-                max="5"
-                placeholder="Enter final rating"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-        </div> */}
 
         {/* Initial Rating */}
         <div className="mb-4">
@@ -118,6 +99,8 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               name="review_initial_rating"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              aria-describedby="intial-rating-error"
+              required
             >
               <option value="" disabled>
                 Select rating
@@ -129,6 +112,14 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               ))}
             </select>
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+          </div>
+          <div id="initial-rating-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.review_initial_rating &&
+              state.errors.review_initial_rating.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
 
@@ -143,6 +134,8 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               name="review_final_rating"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              aria-describedby="final-rating-error"
+              required
             >
               <option value="" disabled>
                 Select rating
@@ -154,6 +147,14 @@ export default function Form({ members, films }: { members: Member[], films: Fil
               ))}
             </select>
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+          </div>
+          <div id="final-rating-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.review_final_rating &&
+              state.errors.review_final_rating.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
 
@@ -171,6 +172,7 @@ export default function Form({ members, films }: { members: Member[], films: Fil
                   name="review_like"
                   type="radio"
                   value="false"
+                  aria-describedby="dislike-error"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -180,12 +182,21 @@ export default function Form({ members, films }: { members: Member[], films: Fil
                   Dislike <ClockIcon className="h-4 w-4" />
                 </label>
               </div>
+              <div id="dislike-error" aria-live="polite" aria-atomic="true">
+                {state.errors?.review_like &&
+                  state.errors.review_like.map((error: string) => (
+                    <p className="mt-2 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
+              </div>
               <div className="flex items-center">
                 <input
                   id="review_like"
                   name="review_like"
                   type="radio"
                   value="true"
+                  aria-describedby="like-error"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -194,6 +205,14 @@ export default function Form({ members, films }: { members: Member[], films: Fil
                 >
                   Like <CheckIcon className="h-4 w-4" />
                 </label>
+              </div>
+              <div id="like-error" aria-live="polite" aria-atomic="true">
+                {state.errors?.review_like &&
+                  state.errors.review_like.map((error: string) => (
+                    <p className="mt-2 text-sm text-red-500" key={error}>
+                      {error}
+                    </p>
+                  ))}
               </div>
             </div>
           </div>

@@ -3,43 +3,92 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import postgres from 'postgres';
+import postgres from 'postgres'; 
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
+ 
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 const FormSchema = z.object({
-    member_id: z.number(),
-    film_id: z.number(),
-    review_initial_rating: z.number(),
-    review_final_rating: z.number(),
-    review_like: z.boolean(),
+    member_id: z.number({
+        invalid_type_error: 'Please select a member.',
+    }),
+    film_id: z.number({
+        invalid_type_error: 'Please select a film.',
+    }),
+    review_initial_rating: z.number({
+        invalid_type_error: 'Please select an initial rating.',
+    }),
+    review_final_rating: z.number({
+        invalid_type_error: 'Please select a final rating.',
+    }),
+    review_like: z.enum(['true', 'false'], {
+        invalid_type_error: 'Please select like/dislike.',
+    }),
 });
+
+export type State = {
+  errors?: {
+    member_id?: number[];
+    film_id?: number[];
+    review_initial_rating?: number[];
+    review_final_rating?: number[];
+    review_like?: string[];
+  };
+  message?: string | null;
+};
 
 const CreateReview = FormSchema;
 
-export async function createReview(formData: FormData) {
-    try {
-    const parsedData = CreateReview.parse ({
+export async function createReview(prevState: State, formData: FormData) {
+    const parsedData = CreateReview.safeParse ({
         member_id: Number(formData.get('member_id')),
         film_id: Number(formData.get('film_id')),
         review_initial_rating: Number(formData.get('review_initial_rating')) * 2,
         review_final_rating: Number(formData.get('review_final_rating')) * 2,
         review_like: formData.get('review_like') === "true"
     });
-    console.log(parsedData);
-
-    await sql`
-        INSERT INTO reviews (member_id, film_id, review_initial_rating, review_like, review_final_rating)
-        VALUES (${parsedData.member_id},
-                ${parsedData.film_id},
-                ${parsedData.review_initial_rating},
-                ${parsedData.review_like},
-                ${parsedData.review_final_rating})
-    `;
-    } catch (error) {
-        console.error('Form Error:', error);
-        throw new Error('Failed to parse new review data.');
+    if (!parsedData.success) {
+        return {
+        errors: parsedData.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to Create Review.',
+        };
     }
+    // console.log(parsedData);
+    try {
+        await sql`
+            INSERT INTO reviews (member_id, film_id, review_initial_rating, review_like, review_final_rating)
+            VALUES (${parsedData.member_id},
+                    ${parsedData.film_id},
+                    ${parsedData.review_initial_rating},
+                    ${parsedData.review_like},
+                    ${parsedData.review_final_rating})
+        `;
+    } catch(error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to Create Review.');
+    }
+    
     revalidatePath('/dashboard/reviews');
     redirect('/dashboard/reviews');
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
 }
