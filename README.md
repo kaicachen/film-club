@@ -17,3 +17,6 @@ This is a project I used to learn the following tech stack:
 - Accessibility
 - Metadata (SEO)
 - Mobile Responsiveness (table layout issues)
+
+## Notes From Sleepy Kai:
+- app/ui/invoices/table -> Should be sortable OR add buttons to edit/delete reviews to ListReviewsOrdered

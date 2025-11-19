@@ -149,16 +149,6 @@ export async function fetchLeastLikedFilm(): Promise<any[]> {
   }
 }
 
-// export async function fetchMembers() {
-//   try {
-//   const data = await sql<Member[]>`SELECT * FROM members`;
-//   return data;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch members data.');
-//   }
-// }
-
 export async function fetchMembers() {
   try {
     const query = `
@@ -182,6 +172,34 @@ export async function fetchReviews() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch members data.');
+  }
+}
+
+export async function fetchReviewById(film_id: number, member_id: number) {
+  try {
+    const data = await sql<Review[]>`
+      SELECT 
+        r.film_id,
+        r.member_id,
+        r.review_initial_rating,
+        r.review_final_rating,
+        r.review_like,
+        m.member_name,
+        f.film_name,
+        f.film_director,
+        f.film_year_released,
+        f.film_poster_url,
+        f.film_date_discussed
+      FROM reviews r
+      JOIN members m ON r.member_id = m.id
+      JOIN films f ON r.film_id = f.id
+      WHERE r.film_id = ${film_id} AND r.member_id = ${member_id};
+    `;
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch review by ids.');
   }
 }
 
