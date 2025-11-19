@@ -1,4 +1,5 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { deleteReview } from '@/app/lib/actions';
 import Link from 'next/link';
 
 export function CreateReview() {
@@ -25,12 +26,13 @@ export function UpdateReview({ film_id, member_id }: { film_id: string, member_i
 }
 
 export function DeleteReview({ film_id, member_id }: { film_id: string, member_id: string }) {
+  const deleteInvoiceWithId = deleteReview.bind(null, Number(film_id), Number(member_id));
   return (
-    <>
+    <form action={deleteInvoiceWithId}>
       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
       </button>
-    </>
+    </form>
   );
 }

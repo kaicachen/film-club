@@ -104,6 +104,11 @@ export async function updateReview(film_id: number, member_id: number, prevState
   redirect('/dashboard/reviews');
 }
 
+export async function deleteReview(film_id: number, member_id: number) {
+  await sql`DELETE FROM reviews WHERE film_id = ${film_id} AND member_id = ${member_id}`;
+  revalidatePath('/dashboard/reviews');
+}
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,

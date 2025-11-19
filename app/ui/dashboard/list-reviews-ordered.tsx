@@ -3,22 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowPathIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { UpdateReview, DeleteReview } from '@/app/ui/invoices/buttons';
+import { JoinedReview } from '@/app/lib/definitions';
 import { convertToStars } from '@/app/utils/convertToStars';
 import { lusitana } from '@/app/ui/fonts';
-
-type JoinedReview = {
-  film_id: number;
-  member_id: number;
-  review_initial_rating: number | null;
-  review_final_rating: number | null;
-  review_like: boolean | null;
-  member_name: string;
-  film_name: string;
-  film_director: string;
-  film_year_released: number;
-  film_poster_url: string;
-  film_date_discussed: string;
-};
 
 export default function ListReviewsOrdered({
   listReviewsOrdered,
@@ -61,7 +49,7 @@ export default function ListReviewsOrdered({
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="relative overflow-y-auto max-h-[70vh] rounded-md border border-gray-200 bg-white">
           {/* Sticky Sortable Header Row */}
-          <div className="sticky top-0 z-10 grid grid-cols-[2fr_2fr_1fr_1fr_1fr] gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
+          <div className="sticky top-0 z-10 grid grid-cols-[2fr_2fr_1fr_1fr_1fr_1fr] gap-4 bg-gray-100 text-gray-700 font-semibold px-6 py-2 text-sm md:text-base border-b border-gray-300 shadow-sm">
             <button
               onClick={() => handleCriteriaChange('film_id')}
               className="flex items-center hover:text-blue-600 transition"
@@ -101,6 +89,9 @@ export default function ListReviewsOrdered({
               Like
               <SortIcon column="review_like" />
             </button>
+            <div>
+              Actions
+            </div>
           </div>
 
           {/* Member Rows */}
@@ -108,7 +99,7 @@ export default function ListReviewsOrdered({
             {listReviewsOrdered.map((review) => (
               <div
                 key={`${review.film_id}-${review.member_id}`}
-                className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
+                className="grid grid-cols-[2fr_2fr_1fr_1fr_1fr_1fr] gap-4 py-3 px-6 items-center text-sm md:text-base"
               >
                 {/* Film info */}
                 <div className="flex items-center font-semibold truncate">
@@ -128,6 +119,10 @@ export default function ListReviewsOrdered({
                 <div>{convertToStars(review.review_initial_rating) ?? '—'}</div>
                 <div>{convertToStars(review.review_final_rating) ?? '—'}</div>
                 <div>{review.review_like ? 'Like' : 'Dislike'}</div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <UpdateReview film_id={String(review.film_id)} member_id={String(review.member_id)} />
+                <DeleteReview film_id={String(review.film_id)} member_id={String(review.member_id)} />
               </div>
             ))}
           </div>

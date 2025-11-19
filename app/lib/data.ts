@@ -9,6 +9,7 @@ import {
   Film,
   // Member,
   Review,
+  JoinedReview,
   MemberReview,
   FilmReview,
   ReviewChartDatum
@@ -175,9 +176,9 @@ export async function fetchReviews() {
   }
 }
 
-export async function fetchReviewById(film_id: number, member_id: number) {
+export async function fetchJoinedReviewById(film_id: number, member_id: number) {
   try {
-    const data = await sql<Review[]>`
+    const data = await sql<JoinedReview[]>`
       SELECT 
         r.film_id,
         r.member_id,

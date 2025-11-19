@@ -62,6 +62,19 @@ export type ReviewChartDatum = {
   review_count: number;
 };
 
+export type JoinedReview = {
+  film_id: number;
+  member_id: number;
+  review_initial_rating: number | null;
+  review_final_rating: number | null;
+  review_like: boolean | null;
+  member_name: string;
+  film_name: string;
+  film_director: string;
+  film_year_released: number;
+  film_poster_url: string;
+  film_date_discussed: string;
+};
 
 // ========== END USED TYPES ==========
 
